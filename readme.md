@@ -2,9 +2,9 @@ This is a Laravel 5 package that provides blog management facility for lavalite 
 
 ## Installation
 
-Begin by installing this package through Composer. Edit your project's `composer.json` file to require `lavalite/blog`.
+Begin by installing this package through Composer. Edit your project's `composer.json` file to require `litecms/blog`.
 
-    "lavalite/blog": "dev-master"
+    "litecms/blog": "dev-master"
 
 Next, update Composer from the Terminal:
 
@@ -40,8 +40,7 @@ Language
 
 Views public and admin
 
-    php artisan vendor:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --tag="view-public"
-    php artisan vendor:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --tag="view-admin"
+    php artisan vendor:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --tag="view"
 
 Publish admin views only if it is necessary.
 

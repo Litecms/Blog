@@ -1,5 +1,5 @@
 {
-    "name": "lavalite/blog",
+    "name": "litecms/blog",
     "description": "Blog package for lavalite.",
     "keywords": ["lavalite", "Blog"],
     "license": "MIT",
