@@ -1,0 +1,21 @@
+{
+    "name": "lavalite/blog",
+    "description": "Blog package for lavalite.",
+    "keywords": ["lavalite", "Blog"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Litecms",
+            "email": "info@lavalite.org"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Litecms\\Blog\\": "src/Litecms/Blog"
+        }
+    },
+    "minimum-stability": "dev"
+}
