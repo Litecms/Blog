@@ -28,17 +28,14 @@
                     $day = date('D', $timestamp);
                 ?>
                 <div class="news-list-item">
-                        @if(!empty(@$value['images']))
-                        <a  href="{{trans_url('blogs')}}/{{@$value['slug']}}"> <img class="img-responsive" alt="" src="{!!trans_url('/image/sl/'.$value->default_image)!!}"></a>
-                       <!--  <img src="{!!trans_url('image/sl/')!!}/{!!trans_url($value->default_image)!!}" class=" img-responsive" alt="" > -->
-                        @else
-                      <a  href="{{trans_url('blogs')}}/{{@$value['slug']}}">  <img alt="" class="img-responsive" src="img/blog1.jpg" ></a>
-                        @endif
+                       
+                        <a  href="{{trans_url('blogs')}}/{{@$value['slug']}}"> <img class="img-responsive" alt="" src="{!!url($value->defaultImage('sl','images'))!!}"></a>
+                       
 
                         <div class="blog-list-inner-desc">
                             <h1 class="inner-title">
                                 <span>
-                                    {{@$value['title']}}
+                                  <a  href="{{trans_url('blogs')}}/{{@$value['slug']}}">  {{@$value['title']}} </a>
                                 </span>
                             </h1>
                             <div class="blog-detail-desc">

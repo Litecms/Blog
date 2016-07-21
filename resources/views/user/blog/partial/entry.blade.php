@@ -1,4 +1,4 @@
-
+   {!! Form::hidden('upload_folder')!!}
 <div class="row">
     <div class="col-sm-12">
         {!! Form::text('title')

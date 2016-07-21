@@ -6,14 +6,10 @@
                     <span>{{$blog['title']}}</span>
                 </h1>
                 <div class="blog-detail-main-slider">
-                    @if(!empty(@$blog['images']))
-                    @foreach($blog['images'] as $image)
-
-                    <img src="{!!trans_url('image/bd/'.@$image['efolder'])!!}/{!!@$image['file']!!}" class=" img-responsive" >
-                    @endforeach
-                    @else
-                    <img src="{!!trans_url('image/bd/img/blog1.jpg')!!}" class="img-responsive" alt="">
-                    @endif
+                @forelse($blog->getImages('bl', 'images') as $image)
+                    <img src="{!!url(@$image)!!}" class="img-responsive" alt="">
+                @empty
+                @endif
                 </div>
                 @if(!empty ($blog['posted_on']))
                         <?php

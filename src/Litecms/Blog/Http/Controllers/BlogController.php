@@ -47,11 +47,9 @@ class BlogController extends BaseController
      */
     protected function show($slug)
     {
-        $this->repository->pushCriteria(new \Litecms\Blog\Repositories\Criteria\BlogPublicCriteria());
         $blog = $this->repository->scopeQuery(function ($query) use ($slug) {
             return $query->whereSlug($slug);
         })->first(['*']);
-
         return $this->theme->of('blog::public.blog.show', compact('blog'))->render();
     }
 

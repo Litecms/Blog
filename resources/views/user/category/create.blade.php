@@ -19,5 +19,6 @@
     ->files('true')
     ->action(URL::to('user/blog/category'))!!}
             @include('blog::user.category.partial.entry')
+    
     {!! Form::close() !!}
 </div>

@@ -10,11 +10,9 @@
     <div class="popular-post-block">
         <div class="row">
             <div class="col-xs-4">
-                @if(!empty(@$latests['images']))
-               <a  href="{{trans_url('blogs')}}/{{@$latests['slug']}}"> <div class="popular-post-img" style="background-image: url({!!trans_url('/image/lb/'.$latests->default_image)!!});"></div></a>
-                @else
-                <div class="popular-post-img" style="background-image: url(img/blog1.jpg);"></div>
-                @endif
+               
+               <a  href="{{trans_url('blogs')}}/{{@$latests['slug']}}"> <div class="popular-post-img" style="background-image: url('{!!url(@$latests->defaultImage('lb','images'))!!}');"></div></a>
+                
             </div>
             <div class="col-xs-8 popular-post-inner">
                 <div class="popular-post-desc">

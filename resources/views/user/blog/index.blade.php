@@ -4,18 +4,15 @@
             <div class="row">
                 <div class="col-sm-6 col-md-6">
                     <h3 class="panel-title">
-                        My
-                        <span>
-                            Blogs
-                        </span>
+                        {!! trans('blog::blog.user_names') !!}
                     </h3>
                     <p class="panel-sub-title m-t-5 text-muted">
-                        Sub title goes here with small font
+                       {!! trans('blog::blog.user_name') !!}
                     </p>
                 </div>
                 <div class="col-sm-6 col-md-6">
                     <div class="row m-t-5">
-                        <div class="col-xs-6 col-sm-8">
+                        <div class="col-xs-12 col-sm-7 m-b-5">
                                 {!!Form::open()
                                 ->method('GET')
                                 ->action(URL::to('user/blog/blog'))!!}
@@ -30,7 +27,7 @@
                                 </div>
                                 {!! Form::close()!!}
                         </div>
-                        <div class="col-xs-6 col-sm-4">
+                        <div class="col-xs-12 col-sm-5">
                             <a class=" btn btn-success btn-block text-uppercase f-12" href="{{ trans_url('/user/blog/blog/create') }}">
                                 {{ trans('cms.create')  }} Blog
                             </a>
@@ -39,18 +36,15 @@
                 </div>
             </div>
         </div>
-        @foreach($blogs as $blog)
-        <div class="panel-body" id="{!! $blog->getRouteKey() !!}">
-            <div class="popular-post-block">
+        
+        <div class="panel-body" >
+            @foreach($blogs as $blog)
+            <div class="popular-post-block" id="{!! $blog->getRouteKey() !!}">
                 <div class="row">
                     <div class="dashboard-blog-pic">
-                        @if(!empty(@$blog['images']))
-                        <img alt="" class="img-responsive" src="{!!trans_url('/image/lb/'.$blog->default_image)!!}">
-                            @else
-                            <img src="{!!trans_url('img/news1.jpg')!!}">
-                                @endif
-                            </img>
-                        </img>
+                       
+                        <a href="{{trans_url('blogs')}}/{{@$blog['slug']}}"> <img alt="" class="img-responsive" src="{!!url($blog->defaultImage('lb','images'))!!}"></a>
+                            
                     </div>
                     <?php
                                             $timestamp = strtotime($blog['published_on']);
@@ -85,7 +79,7 @@
                     </div>
                 </div>
             </div>
+            @endforeach
         </div>
-        @endforeach
     </div>
 </div>

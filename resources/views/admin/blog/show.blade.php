@@ -34,12 +34,13 @@
                     @include('blog::admin.blog.partial.entry')
 
                     <div class='col-md-6 col-sm-6'>
-                    @if(!empty($blog['images']))
+                   
                      <label>Images</label><br>
-                          @foreach($blog['images'] as $value)
-                            <img src="{!!trans_url('image/sm/'.@$value['efolder'])!!}/{!!@$value['file']!!}">
-                          @endforeach
-                     @endif
+                          
+                     @forelse($blog->getImages('sm', 'images') as $image)
+                    <img src="{!!url(@$image)!!}"> &nbsp;&nbsp;
+                @empty
+                @endif
                     </div>
                 </div>
             </div>

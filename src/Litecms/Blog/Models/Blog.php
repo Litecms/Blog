@@ -47,7 +47,7 @@ class Blog extends Model
         $images = json_decode($this->attributes['images'], true);
         $image  = end($images);
 
-        return $image['efolder'] . '/' . $image['file'];
+        return @$image['efolder'] . '/' . @$image['file'];
     }
 
     public function getPostedOnAttribute($val)

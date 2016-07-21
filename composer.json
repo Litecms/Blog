@@ -1,7 +1,7 @@
 {
     "name": "litecms/blog",
     "description": "Blog package for lavalite.",
-    "keywords": ["lavalite", "Blog"],
+    "keywords": ["lavalite", "lavalite", "Blog"],
     "license": "MIT",
     "authors": [
         {

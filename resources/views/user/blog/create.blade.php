@@ -3,8 +3,8 @@
         <div class="dashboard-content">
             <div class="panel panel-color panel-inverse">
                 <div class="panel-heading">
-                    <h3 class="panel-title">create <span>Blog</span></h3>
-                    <p class="panel-sub-title m-t-5 text-muted">Sub title goes here with small font</p>
+                    <h3 class="panel-title">{!!Trans('blog::blog.user_names')!!}</h3>
+                    <p class="panel-sub-title m-t-5 text-muted">{!!Trans('blog::blog.create')!!}</p>
                 </div>
                 
                 <div class="panel-body">
@@ -22,6 +22,8 @@
                                  <a href="{!!trans_url('/user/blog/blog')!!}" class="btn btn-sm btn-inverse waves-effect waves-float m-l-5 text-uppercase"> Cancel</a>
                             </div>
                         </div>
+                        
+                   
                     {!! Form::close() !!}
                 </div>
             </div>

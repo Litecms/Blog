@@ -1,4 +1,4 @@
-This is a Laravel 5 package that provides blog management facility for lavalite framework.
+This is a Litecms 5 package that provides blog management facility for lavalite framework.
 
 ## Installation
 
@@ -34,13 +34,18 @@ Configuration
 
     php artisan vendor:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --tag="config"
 
-Language
+Language files
 
     php artisan vendor:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --tag="lang"
 
-Views public and admin
+View files
 
-    php artisan vendor:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --tag="view"
+    php artisan vendor:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --tag="views"
+
+Public folders
+
+    php artisan vendor:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --tag="public"
+    
 
 Publish admin views only if it is necessary.
 
