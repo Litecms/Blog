@@ -28,9 +28,10 @@
                     $day = date('D', $timestamp);
                 ?>
                 <div class="news-list-item">
-                       
-                        <a  href="{{trans_url('blogs')}}/{{@$value['slug']}}"> <img class="img-responsive" alt="" src="{!!url($value->defaultImage('sl','images'))!!}"></a>
-                       
+
+                        <a  href="{{trans_url('blogs')}}/{{@$value['slug']}}"> 
+                        <img class="img-responsive" alt="" src="{!!url($value->defaultImage('blog.lg','images'))!!}"></a>
+
 
                         <div class="blog-list-inner-desc">
                             <h1 class="inner-title">

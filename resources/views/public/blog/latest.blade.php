@@ -10,9 +10,10 @@
     <div class="popular-post-block">
         <div class="row">
             <div class="col-xs-4">
-               
-               <a  href="{{trans_url('blogs')}}/{{@$latests['slug']}}"> <div class="popular-post-img" style="background-image: url('{!!url(@$latests->defaultImage('lb','images'))!!}');"></div></a>
-                
+
+               <a  href="{{trans_url('blogs')}}/{{@$latests['slug']}}">
+               <div class="popular-post-img" style="background-image: url('{!!url(@$latests->defaultImage('blog.sm','images'))!!}');"></div></a>
+
             </div>
             <div class="col-xs-8 popular-post-inner">
                 <div class="popular-post-desc">

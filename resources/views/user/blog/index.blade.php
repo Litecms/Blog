@@ -36,20 +36,19 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="panel-body" >
             @foreach($blogs as $blog)
             <div class="popular-post-block" id="{!! $blog->getRouteKey() !!}">
                 <div class="row">
                     <div class="dashboard-blog-pic">
-                       
-                        <a href="{{trans_url('blogs')}}/{{@$blog['slug']}}"> <img alt="" class="img-responsive" src="{!!url($blog->defaultImage('lb','images'))!!}"></a>
-                            
+                        <a href="{{trans_url('blogs')}}/{{@$blog['slug']}}">
+                        <img alt="" class="img-responsive" src="{!!url($blog->defaultImage('blog.sm','images'))!!}"></a>
                     </div>
                     <?php
-                                            $timestamp = strtotime($blog['published_on']);
-                                            $day = date('D', $timestamp);
-                                            ?>
+                        $timestamp = strtotime($blog['published_on']);
+                        $day = date('D', $timestamp);
+                    ?>
                     <div class="dashboard-blog-desc popular-post-inner">
                         <div class="popular-post-desc">
                             <a href="{{trans_url('blogs')}}/{{@$blog['slug']}}">

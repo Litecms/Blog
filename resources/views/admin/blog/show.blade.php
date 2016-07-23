@@ -34,10 +34,10 @@
                     @include('blog::admin.blog.partial.entry')
 
                     <div class='col-md-6 col-sm-6'>
-                   
+
                      <label>Images</label><br>
-                          
-                     @forelse($blog->getImages('sm', 'images') as $image)
+
+                     @forelse($blog->getImages('blog.sm', 'images') as $image)
                     <img src="{!!url(@$image)!!}"> &nbsp;&nbsp;
                 @empty
                 @endif

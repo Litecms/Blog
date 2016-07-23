@@ -6,7 +6,7 @@
                     <span>{{$blog['title']}}</span>
                 </h1>
                 <div class="blog-detail-main-slider">
-                @forelse($blog->getImages('bl', 'images') as $image)
+                @forelse($blog->getImages('blog.lg', 'images') as $image)
                     <img src="{!!url(@$image)!!}" class="img-responsive" alt="">
                 @empty
                 @endif
