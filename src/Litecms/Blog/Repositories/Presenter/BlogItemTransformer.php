@@ -17,7 +17,7 @@ class BlogItemTransformer extends TransformerAbstract
             'images'      => $blog->images,
             'viewcount'   => $blog->viewcount,
             'status'      => $blog->status,
-            'posted_on'   => $blog->posted_on,
+            'posted_on'   => format_date($blog->posted_on),
             'published'   => $blog->published,
         ];
     }

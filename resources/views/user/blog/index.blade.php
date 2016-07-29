@@ -57,7 +57,7 @@
                                 </h4>
                             </a>
                             <p>
-                                {{$day}} , {{$blog['posted_on']}}
+                                {{$day}} , {{format_date($blog['posted_on'])}}
                             </p>
                         </div>
                     </div>

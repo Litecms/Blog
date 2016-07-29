@@ -10,10 +10,11 @@ use Litepie\Hashids\Traits\Hashids;
 use Litepie\Repository\Traits\PresentableTrait;
 use Litepie\Revision\Traits\Revision;
 use Litepie\Trans\Traits\Trans;
+use Litepie\User\Traits\UserModel;
 
 class Blog extends Model
 {
-    use Filer, SoftDeletes, Hashids, Slugger, Trans, Revision, PresentableTrait;
+    use Filer, SoftDeletes, Hashids, Slugger, Trans, Revision, PresentableTrait, UserModel;
 
     /**
      * Configuartion for the model.
@@ -48,51 +49,6 @@ class Blog extends Model
         $image  = end($images);
 
         return @$image['efolder'] . '/' . @$image['file'];
-    }
-
-    public function getPostedOnAttribute($val)
-    {
-
-        if ($val == '0000-00-00' || empty($val)) {
-            return '';
-        }
-
-        return $this->formatDate($val);
-    }
-
-    public function setPostedOnAttribute($val)
-    {
-
-        if ($val == '') {
-            return '';
-        }
-
-        return $this->attributes['posted_on'] = date('Y-m-d', strtotime($val));
-    }
-
-    /**
-     * format date.
-     *
-     * @param string $folder
-     *
-     * @return string
-     */
-    public function formatDate($date, $format = 'd M, Y')
-    {
-
-        return date($format, strtotime($date));
-    }
-
-    /**
-     * format date time.
-     *
-     * @param string $folder
-     *
-     * @return string
-     */
-    public function formatDatetime($date, $format = 'd M, Y h:i A')
-    {
-        return date($format, strtotime($date));
     }
 
 }

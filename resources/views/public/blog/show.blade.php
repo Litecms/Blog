@@ -18,7 +18,7 @@
                         ?>
                         @endif
                 <div class="blog-detail-desc">
-                    <p class="detail-tags m-b-20"><i class="ion ion-android-person"></i>{{$blog['user']['name']}} on <a>{{$blog['blogCategories']['name']}} </a> , at {{@$day}} ,{{$blog['posted_on']}}</p>
+                    <p class="detail-tags m-b-20"><i class="ion ion-android-person"></i>{{$blog['user']['name']}} on <a>{{$blog['blogCategories']['name']}} </a> , at {{@$day}} ,{{format_date($blog['posted_on'])}}</p>
 
                     <p class="blog-detail-para">{{$blog['description']}}</p>
                 </div>
