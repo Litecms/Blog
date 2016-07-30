@@ -62,7 +62,7 @@ return [
         'appends'       => [],
         'fillable'      => ['user_id', 'category_id', 'title', 'description', 'viewcount', 'status', 'posted_on', 'published', 'upload_folder'],
 
-        'upload_folder' => 'blog/blog',
+        'upload-folder' => '/uploads/blog/blog',
         'uploads'       => [
             'single'   => ['image'],
             'multiple' => ['images'],
@@ -93,7 +93,7 @@ return [
         'appends'       => [],
         'fillable'      => ['user_id', 'name', 'status', 'upload_folder'],
 
-        'upload_folder' => '/blog/category',
+        'upload-folder' => '/uploads/blog/category',
         'uploads'       => [
             'single'   => [],
             'multiple' => [],

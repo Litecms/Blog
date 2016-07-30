@@ -28,7 +28,6 @@ class CreateBlogsTable extends Migration
             $table->string('slug', 200)->nullable();
             $table->enum('published', ['Yes', 'No'])->default('No')->nullable();
             $table->enum('status', ['show', 'hide'])->default('hide')->nullable();
-            $table->string('user_type', 100)->nullable();
             $table->integer('user_id')->nullable();
             $table->string('upload_folder', 100)->nullable();
             $table->softDeletes();
@@ -43,7 +42,6 @@ class CreateBlogsTable extends Migration
             $table->string('name', 50)->nullable();
             $table->string('slug', 200)->nullable();
             $table->enum('status', ['show', 'hide'])->default('hide')->nullable();
-            $table->string('user_type', 100)->nullable();
             $table->integer('user_id')->nullable();
             $table->string('upload_folder', 100)->nullable();
             $table->softDeletes();

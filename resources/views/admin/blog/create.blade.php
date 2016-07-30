@@ -22,7 +22,7 @@
                 @include('blog::admin.blog.partial.entry')
                 <div class='col-md-6 col-sm-6'>
                     <label>Images</label>
-                    {!!$blog->fileUpload('images')!!}
+                    {!! Filer::uploader('images', $blog->getUploadURL('images')) !!}
                 </div>
             </div>
         </div>

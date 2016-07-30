@@ -5,7 +5,13 @@
                             <span>{!! $blog['title'] !!}</span>
                         </h1>
                         <div class="blog-detail-main-slider">
-                            {!!$blog->fileShow('images')->size('md')!!}
+                            @if(!empty(@$blog['images']))
+                            @foreach($blog['images'] as $val)
+                                                
+                            <img src="{!!trans_url('image/md/'.@$val['efolder'])!!}/{!!@$val['file']!!}" class=" img-responsive" alt="" >
+                                               
+                            @endforeach
+                            @endif
                         </div>
                          <?php
                             $timestamp = strtotime($blog['published_on']);

@@ -23,11 +23,11 @@
                 @include('blog::admin.blog.partial.entry')
                 <div class='col-md-6 col-sm-6'>
                     <label>Images</label>
-                    {!!$blog->fileUpload('images')!!}
+                    {!! Filer::uploader('images', $blog->getUploadURL('images')) !!}
                 </div>
                 <div class='col-md-6 col-sm-6'>
                     <label>Uploaded Images</label>
-                     {!!$blog->fileEdit('images') !!}
+                    {!! Filer::editor('images', $blog['images']) !!}
                 </div>
             </div>
         </div>

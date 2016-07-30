@@ -23,7 +23,7 @@
                         </h4>
                     </a>
                     <p>
-                        {{$dayy}} ,{{format_date($latests->posted_on)}}
+                        {{$dayy}} ,{{$latests->posted_on}}
                     </p>
                 </div>
             </div>
