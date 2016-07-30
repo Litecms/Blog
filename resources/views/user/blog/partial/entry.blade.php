@@ -1,4 +1,4 @@
-   {!! Form::hidden('upload_folder')!!}
+{!! Form::hidden('upload_folder')!!}
 <div class="row">
     <div class="col-sm-12">
         {!! Form::text('title')
@@ -7,7 +7,7 @@
         -> placeholder(trans('blog::blog.placeholder.title'))!!}
     </div>
     <div class="col-sm-6">
-          {!! Form::select('status')
+        {!! Form::select('status')
           -> options(trans('blog::blog.options.status'))
           -> label('STATUS')
           -> placeholder(trans('blog::blog.placeholder.status'))!!}
@@ -26,16 +26,16 @@
         -> placeholder(trans('blog::blog.placeholder.description'))
         !!}
     </div>
-     <div class="col-sm-12 profile-pic">
-        <label for="name">BLOG IMAGES</label>
+    <div class="col-sm-12 profile-pic">
+        <label for="name">
+            BLOG IMAGES
+        </label>
         <div>
-            {!! Filer::uploader('images', $blog->getUploadURL('images'),20) !!}
-            {!! Filer::editor('images', $blog['images'],20) !!}
-
+            {!! $blog->fileUpload('images')!!}
+            {!! $blog->fileEdit('images') !!}
         </div>
-     </div>
+    </div>
 </div>
-
 <style>
     sup
     {

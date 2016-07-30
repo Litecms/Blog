@@ -36,11 +36,7 @@
                     <div class='col-md-6 col-sm-6'>
 
                      <label>Images</label><br>
-
-                     @forelse($blog->getImages('blog.sm', 'images') as $image)
-                    <img src="{!!url(@$image)!!}"> &nbsp;&nbsp;
-                @empty
-                @endif
+                        {!!$blog->fileShow('images')!!}
                     </div>
                 </div>
             </div>
