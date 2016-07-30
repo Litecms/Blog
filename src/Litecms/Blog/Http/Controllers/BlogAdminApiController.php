@@ -99,6 +99,7 @@ class BlogAdminApiController extends BaseController
         try {
             $attributes = $request->all();
             $attributes['user_id'] = user_id('admin.api');
+            $attributes['user_type'] = user_type();
             $blog = $this->repository->create($attributes);
             $blog = $blog->presenter();
             $blog['code'] = 2004;

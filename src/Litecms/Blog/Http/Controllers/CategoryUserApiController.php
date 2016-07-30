@@ -103,6 +103,7 @@ class CategoryUserApiController extends BaseController
         try {
             $attributes = $request->all();
             $attributes['user_id'] = user_id('admin.api');
+            $attributes['user_type'] = user_type();
             $category = $this->repository->create($attributes);
             $category = $category->presenter();
             $category['code'] = 2004;
