@@ -1,4 +1,3 @@
-
 <?php
 
 namespace Litecms\Blog\Http\Controllers;
