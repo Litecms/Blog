@@ -22,21 +22,19 @@ Installing this package using Composer.
 
     php artisan vendor:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --tag="lang"
 
+**Publishing images**
+
+    php artisan vendor:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --tag="storage"
+
 **Publishing views**
 
     php artisan vendor:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --tag="view"
 
 **Publishing views to theme**
 
-Publishes admin view
-    php artisan theme:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --view=="admin" --theme=="admin"
+Publishes admin view to admin theme
+    php artisan theme:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --view="admin" --theme="admin"
 
-Publishes client view
-    php artisan theme:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --view=="default" --theme=="client"
-
-Publishes user view
-    php artisan theme:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --view=="default" --theme=="user"
-
-Publishes public view
-    php artisan theme:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --view=="public" --theme=="public"
+Publishes public view to public theme
+    php artisan theme:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --view="public" --theme="public"
 
