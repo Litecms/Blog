@@ -4,37 +4,38 @@ Lavalite package that provides blog management facility for the cms.
 
 Installing this package using Composer.
 
-    composer install litecms/blog
+    composer require litecms/blog
 
-
-## Publishing files and migraiting database.
-
-**Migration and seeds**
+## Migration and seeds
 
     php artisan migrate
     php artisan db:seed --class=Litecms\\BlogTableSeeder
 
-**Publishing configuration**
+## Publishing files.
+
+**Configuration**
 
     php artisan vendor:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --tag="config"
 
-**Publishing language**
+**Language**
 
     php artisan vendor:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --tag="lang"
 
-**Publishing images**
+**Images**
 
     php artisan vendor:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --tag="storage"
 
-**Publishing views**
+### Publishing views
+
+Publishes admin view to resources/vendor
 
     php artisan vendor:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --tag="view"
 
-**Publishing views to theme**
-
 Publishes admin view to admin theme
+
     php artisan theme:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --view="admin" --theme="admin"
 
 Publishes public view to public theme
+
     php artisan theme:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --view="public" --theme="public"
 
