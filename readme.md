@@ -1,17 +1,15 @@
-Lavalite package that provides blog management facility for the cms.
+Laravel package that provides content blog management facility for lavalite CMS.
 
 ## Installation
 
-Installing this package using Composer.
+Require this package with composer. 
 
     composer require litecms/blog
 
-## Migration and seeds
+Laravel 5.5 uses Package Auto-Discovery, so doesn't require you to manually add the ServiceProvider.
 
-    php artisan migrate
-    php artisan db:seed --class=Litecms\\BlogTableSeeder
 
-## Publishing files.
+## Publishing
 
 **Configuration**
 
@@ -21,13 +19,13 @@ Installing this package using Composer.
 
     php artisan vendor:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --tag="lang"
 
-**Images**
+**Files**
 
     php artisan vendor:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --tag="storage"
 
-### Publishing views
+### Views
 
-Publishes admin view to resources/vendor
+Publish views to resources\views\vendor directory
 
     php artisan vendor:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --tag="view"
 
@@ -38,4 +36,3 @@ Publishes admin view to admin theme
 Publishes public view to public theme
 
     php artisan theme:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --view="public" --theme="public"
-
