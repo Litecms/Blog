@@ -18,7 +18,7 @@ class CreateBlogCommentsTable extends Migration
         /*
          * Table: comments
          */
-        Schema::create(config('litecms.blog.comment.table'), function ($table) {
+        Schema::create(config('litecms.blog.comment.model.table'), function ($table) {
             $table->increments('id');
             $table->longText('comment')->nullable();
             $table->string('author', 255)->nullable();
@@ -42,6 +42,6 @@ class CreateBlogCommentsTable extends Migration
 
     public function down()
     {
-        Schema::drop(config('litecms.blog.comment.table'));
+        Schema::drop(config('litecms.blog.comment.model.table'));
     }
 }

@@ -17,7 +17,7 @@ class CreateBlogsTable extends Migration
         /*
          * Table: blogs
          */
-        Schema::create(config('litecms.blog.blog.table'), function ($table) {
+        Schema::create(config('litecms.blog.blog.model.table'), function ($table) {
             $table->increments('id');
             $table->integer('category_id')->nullable();
             $table->string('title', 255)->nullable();
@@ -45,6 +45,6 @@ class CreateBlogsTable extends Migration
 
     public function down()
     {
-        Schema::drop(config('litecms.blog.blog.table'));
+        Schema::drop(config('litecms.blog.blog.model.table'));
     }
 }

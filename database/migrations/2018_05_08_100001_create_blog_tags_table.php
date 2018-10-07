@@ -18,7 +18,7 @@ class CreateBlogTagsTable extends Migration
         /*
          * Table: tags
          */
-        Schema::create(config('litecms.blog.tag.table'), function ($table) {
+        Schema::create(config('litecms.blog.tag.model.table'), function ($table) {
             $table->increments('id');
             $table->string('name', 255)->nullable();
             $table->integer('frequency')->nullable();
@@ -37,6 +37,6 @@ class CreateBlogTagsTable extends Migration
 
     public function down()
     {
-        Schema::drop(config('litecms.blog.tag.table'));
+        Schema::drop(config('litecms.blog.tag.model.table'));
     }
 }
