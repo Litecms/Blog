@@ -48,7 +48,7 @@ class TagResourceController extends BaseController
 
         $tags = $this->repository->paginate();
 
-        return $this->response->title(trans('blog::tag.names'))
+        return $this->response->setMetaTitle(trans('blog::tag.names'))
             ->view('blog::tag.index', true)
             ->data(compact('tags'))
             ->output();
@@ -71,7 +71,7 @@ class TagResourceController extends BaseController
             $view = 'blog::tag.new';
         }
 
-        return $this->response->title(trans('app.view') . ' ' . trans('blog::tag.name'))
+        return $this->response->setMetaTitle(trans('app.view') . ' ' . trans('blog::tag.name'))
             ->data(compact('tag'))
             ->view($view, true)
             ->output();
@@ -88,7 +88,7 @@ class TagResourceController extends BaseController
     {
 
         $tag = $this->repository->newInstance([]);
-        return $this->response->title(trans('app.new') . ' ' . trans('blog::tag.name')) 
+        return $this->response->setMetaTitle(trans('app.new') . ' ' . trans('blog::tag.name')) 
             ->view('blog::tag.create', true) 
             ->data(compact('tag'))
             ->output();
@@ -134,7 +134,7 @@ class TagResourceController extends BaseController
      */
     public function edit(TagRequest $request, Tag $tag)
     {
-        return $this->response->title(trans('app.edit') . ' ' . trans('blog::tag.name'))
+        return $this->response->setMetaTitle(trans('app.edit') . ' ' . trans('blog::tag.name'))
             ->view('blog::tag.edit', true)
             ->data(compact('tag'))
             ->output();

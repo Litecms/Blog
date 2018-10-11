@@ -38,7 +38,7 @@ class TagPublicController extends BaseController
         })->paginate();
 
 
-        return $this->response->title(trans('blog::tag.names'))
+        return $this->response->setMetaTitle(trans('blog::tag.names'))
             ->view('blog::public.tag.index')
             ->data(compact('tags'))
             ->output();
@@ -60,7 +60,7 @@ class TagPublicController extends BaseController
         })->paginate();
 
 
-        return $this->response->title(trans('blog::tag.names'))
+        return $this->response->setMetaTitle(trans('blog::tag.names'))
             ->view('blog::public.tag.index')
             ->data(compact('tags'))
             ->output();
@@ -80,7 +80,7 @@ class TagPublicController extends BaseController
                          ->where('slug', $slug);
         })->first(['*']);
 
-        return $this->response->title($$tag->name . trans('blog::tag.name'))
+        return $this->response->setMetaTitle($$tag->name . trans('blog::tag.name'))
             ->view('blog::public.tag.show')
             ->data(compact('tag'))
             ->output();

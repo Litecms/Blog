@@ -48,7 +48,7 @@ class BlogResourceController extends BaseController
 
         $blogs = $this->repository->paginate();
 
-        return $this->response->title(trans('blog::blog.names'))
+        return $this->response->setMetaTitle(trans('blog::blog.names'))
             ->view('blog::blog.index', true)
             ->data(compact('blogs'))
             ->output();
@@ -71,7 +71,7 @@ class BlogResourceController extends BaseController
             $view = 'blog::blog.new';
         }
 
-        return $this->response->title(trans('app.view') . ' ' . trans('blog::blog.name'))
+        return $this->response->setMetaTitle(trans('app.view') . ' ' . trans('blog::blog.name'))
             ->data(compact('blog'))
             ->view($view, true)
             ->output();
@@ -88,7 +88,7 @@ class BlogResourceController extends BaseController
     {
         
         $blog = $this->repository->newInstance([]);
-        return $this->response->title(trans('app.new') . ' ' . trans('blog::blog.name')) 
+        return $this->response->setMetaTitle(trans('app.new') . ' ' . trans('blog::blog.name')) 
             ->view('blog::blog.create', true) 
             ->data(compact('blog'))
             ->output();
@@ -134,7 +134,7 @@ class BlogResourceController extends BaseController
      */
     public function edit(BlogRequest $request, Blog $blog)
     {
-        return $this->response->title(trans('app.edit') . ' ' . trans('blog::blog.name'))
+        return $this->response->setMetaTitle(trans('app.edit') . ' ' . trans('blog::blog.name'))
             ->view('blog::blog.edit', true)
             ->data(compact('blog'))
             ->output();

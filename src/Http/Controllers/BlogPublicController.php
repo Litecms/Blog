@@ -38,7 +38,7 @@ class BlogPublicController extends BaseController
         })->paginate();
 
 
-        return $this->response->title(trans('blog::blog.names'))
+        return $this->response->setMetaTitle(trans('blog::blog.names'))
             ->view('blog::public.blog.index')
             ->data(compact('blogs'))
             ->output();
@@ -60,7 +60,7 @@ class BlogPublicController extends BaseController
         })->paginate();
 
 
-        return $this->response->title(trans('blog::blog.names'))
+        return $this->response->setMetaTitle(trans('blog::blog.names'))
             ->view('blog::public.blog.index')
             ->data(compact('blogs'))
             ->output();
@@ -80,7 +80,7 @@ class BlogPublicController extends BaseController
                          ->where('slug', $slug);
         })->first(['*']);
 
-        return $this->response->title(trans('blog::blog.name'))
+        return $this->response->setMetaTitle(trans('blog::blog.name'))
             ->view('blog::public.blog.show')
             ->data(compact('blog'))
             ->output();
@@ -98,7 +98,7 @@ class BlogPublicController extends BaseController
                          ->where('category_id', $category_id);
         })->paginate();
 
-        return $this->response->title(trans('blog::blog.names'))
+        return $this->response->setMetaTitle(trans('blog::blog.names'))
             ->view('blog::public.blog.index')
             ->data(compact('blogs'))
             ->output();
@@ -111,7 +111,7 @@ class BlogPublicController extends BaseController
                          ->where('user_id', $user_id);
         })->paginate();
 
-        return $this->response->title(trans('blog::blog.names'))
+        return $this->response->setMetaTitle(trans('blog::blog.names'))
             ->view('blog::public.blog.index')
             ->data(compact('blogs'))
             ->output();
@@ -124,7 +124,7 @@ class BlogPublicController extends BaseController
                          ->where('tags', 'like', '%"'.$tag.'"%');
         })->paginate();
 
-        return $this->response->title(trans('blog::blog.names'))
+        return $this->response->setMetaTitle(trans('blog::blog.names'))
             ->view('blog::public.blog.index')
             ->data(compact('blogs'))
             ->output();

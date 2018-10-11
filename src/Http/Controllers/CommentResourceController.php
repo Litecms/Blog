@@ -48,7 +48,7 @@ class CommentResourceController extends BaseController
 
         $comments = $this->repository->paginate();
 
-        return $this->response->title(trans('blog::comment.names'))
+        return $this->response->setMetaTitle(trans('blog::comment.names'))
             ->view('blog::comment.index', true)
             ->data(compact('comments'))
             ->output();
@@ -71,7 +71,7 @@ class CommentResourceController extends BaseController
             $view = 'blog::comment.new';
         }
 
-        return $this->response->title(trans('app.view') . ' ' . trans('blog::comment.name'))
+        return $this->response->setMetaTitle(trans('app.view') . ' ' . trans('blog::comment.name'))
             ->data(compact('comment'))
             ->view($view, true)
             ->output();
@@ -88,7 +88,7 @@ class CommentResourceController extends BaseController
     {
 
         $comment = $this->repository->newInstance([]);
-        return $this->response->title(trans('app.new') . ' ' . trans('blog::comment.name')) 
+        return $this->response->setMetaTitle(trans('app.new') . ' ' . trans('blog::comment.name')) 
             ->view('blog::comment.create', true) 
             ->data(compact('comment'))
             ->output();
@@ -134,7 +134,7 @@ class CommentResourceController extends BaseController
      */
     public function edit(CommentRequest $request, Comment $comment)
     {
-        return $this->response->title(trans('app.edit') . ' ' . trans('blog::comment.name'))
+        return $this->response->setMetaTitle(trans('app.edit') . ' ' . trans('blog::comment.name'))
             ->view('blog::comment.edit', true)
             ->data(compact('comment'))
             ->output();
