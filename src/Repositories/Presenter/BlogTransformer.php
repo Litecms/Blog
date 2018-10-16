@@ -11,7 +11,7 @@ class BlogTransformer extends TransformerAbstract
     {
         return [
             'id'                => $blog->getRouteKey(),
-            'category_id'       => $blog->category_id,
+            'category_id'       => $blog->category->name,
             'title'             => $blog->title,
             'description'       => $blog->description,
             'images'            => $blog->images,

@@ -16,9 +16,10 @@
     </div>
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
+                    
+                    <li class="{!!(request('status') == 'archive')?'active':'';!!}"><a href="{!!guard_url('blog/blog')!!}">Blog</a></li>
                     <li class="{!!(request('status') == '')?'active':'';!!}"><a href="{!!guard_url('blog/category')!!}">{!! trans('blog::category.names') !!}</a></li>
-                    <li class="{!!(request('status') == 'archive')?'active':'';!!}"><a href="{!!guard_url('blog/category?status=archive')!!}">Archived</a></li>
-                    <li class="{!!(request('status') == 'deleted')?'active':'';!!}"><a href="{!!guard_url('blog/category?status=deleted')!!}">Trashed</a></li>
+                    <li class="{!!(request('status') == 'deleted')?'active':'';!!}"><a href="{!!guard_url('blog/tag')!!}">Tag</a></li>
                     <li class="pull-right">
                     <span class="actions">
                     <!--   
@@ -34,11 +35,9 @@
                 <table id="blog-category-list" class="table table-striped data-table">
                     <thead class="list_head">
                         <th style="text-align: right;" width="1%"><a class="btn-reset-filter" href="#Reset" style="display:none; color:#fff;"><i class="fa fa-filter"></i></a> <input type="checkbox" id="blog-category-check-all"></th>
-                        <th data-field="id">{!! trans('blog::category.label.id')!!}</th>
                     <th data-field="name">{!! trans('blog::category.label.name')!!}</th>
                     <th data-field="slug">{!! trans('blog::category.label.slug')!!}</th>
                     <th data-field="status">{!! trans('blog::category.label.status')!!}</th>
-                    <th data-field="user_type">{!! trans('blog::category.label.user_type')!!}</th>
                     <th data-field="created_at">{!! trans('blog::category.label.created_at')!!}</th>
                     </thead>
                 </table>
@@ -87,11 +86,9 @@ $(document).ready(function(){
 
         "columns": [
             {data :'id'},
-            {data :'id'},
             {data :'name'},
             {data :'slug'},
             {data :'status'},
-            {data :'user_type'},
             {data :'created_at'},
         ],
         "pageLength": 25

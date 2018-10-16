@@ -25,8 +25,11 @@ class CreateBlogsTable extends Migration
             $table->longText('description')->nullable();
             $table->text('images')->nullable();
             $table->text('tags')->nullable();
-            $table->integer('viewcount')->nullable();
+            $table->integer('viewcount')->default(0);
             $table->string('slug', 255)->nullable();
+            $table->string('meta_title', 255)->nullable();
+            $table->string('meta_description', 255)->nullable();
+            $table->string('meta_keyword', 255)->nullable();
             $table->enum('published', ['yes', 'no'])->nullable();
             $table->timestamp('published_at')->nullable();
             $table->string('user_type', 255)->nullable();

@@ -32,7 +32,7 @@ return [
      * Options for select/radio/check.
      */
     'options'       => [
-            'published'           => ['yes' => 'yes','no' => 'no'],
+            'status'           => ['show' => 'show','hide' => 'hide'],
     ],
 
     /**
@@ -43,7 +43,7 @@ return [
         'name'                       => 'Please enter name',
         'frequency'                  => 'Please enter frequency',
         'slug'                       => 'Please enter slug',
-        'published'                  => 'Please select published',
+        'status'                  => 'Please select status',
         'created_at'                 => 'Please select created at',
         'updated_at'                 => 'Please select updated at',
         'deleted_at'                 => 'Please select deleted at',
@@ -57,7 +57,7 @@ return [
         'name'                       => 'Name',
         'frequency'                  => 'Frequency',
         'slug'                       => 'Slug',
-        'published'                  => 'Published',
+        'status'                  => 'status',
         'created_at'                 => 'Created at',
         'updated_at'                 => 'Updated at',
         'deleted_at'                 => 'Deleted at',
@@ -70,7 +70,7 @@ return [
         'id'                         => ['name' => 'Id', 'data-column' => 1, 'checked'],
         'name'                       => ['name' => 'Name', 'data-column' => 2, 'checked'],
         'frequency'                  => ['name' => 'Frequency', 'data-column' => 3, 'checked'],
-        'published'                  => ['name' => 'Published', 'data-column' => 4, 'checked'],
+        'status'                  => ['name' => 'Status', 'data-column' => 4, 'checked'],
         'created_at'                 => ['name' => 'Created at', 'data-column' => 5, 'checked'],
     ],
 

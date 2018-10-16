@@ -39,7 +39,7 @@ class CategoryPublicController extends BaseController
 
 
         return $this->response->setMetaTitle(trans('blog::category.names'))
-            ->view('blog::public.category.index')
+            ->view('blog::category.index')
             ->data(compact('categories'))
             ->output();
     }
@@ -61,7 +61,7 @@ class CategoryPublicController extends BaseController
 
 
         return $this->response->setMetaTitle(trans('blog::category.names'))
-            ->view('blog::public.category.index')
+            ->view('blog::category.index')
             ->data(compact('categories'))
             ->output();
     }
@@ -81,7 +81,7 @@ class CategoryPublicController extends BaseController
         })->first(['*']);
 
         return $this->response->setMetaTitle($$category->name . trans('blog::category.name'))
-            ->view('blog::public.category.show')
+            ->view('blog::category.show')
             ->data(compact('category'))
             ->output();
     }

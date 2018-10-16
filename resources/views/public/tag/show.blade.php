@@ -1,10 +1,10 @@
-            @include('blog::public.tag.partial.header')
+            @include('blog::tag.partial.header')
 
             <section class="single">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-3">
-                            @include('blog::public.tag.partial.aside')
+                            @include('blog::tag.partial.aside')
                         </div>
                         <div class="col-md-9 ">
                             <div class="area">

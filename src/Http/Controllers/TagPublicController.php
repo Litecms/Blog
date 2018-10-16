@@ -33,13 +33,14 @@ class TagPublicController extends BaseController
     {
         $tags = $this->repository
         ->pushCriteria(app('Litepie\Repository\Criteria\RequestCriteria'))
+        ->pushCriteria(\Litecms\Blog\Repositories\Criteria\TagPublicCriteria::class)
         ->scopeQuery(function($query){
             return $query->orderBy('id','DESC');
         })->paginate();
 
 
         return $this->response->setMetaTitle(trans('blog::tag.names'))
-            ->view('blog::public.tag.index')
+            ->view('blog::tag.index')
             ->data(compact('tags'))
             ->output();
     }
@@ -61,7 +62,7 @@ class TagPublicController extends BaseController
 
 
         return $this->response->setMetaTitle(trans('blog::tag.names'))
-            ->view('blog::public.tag.index')
+            ->view('blog::tag.index')
             ->data(compact('tags'))
             ->output();
     }
@@ -81,7 +82,7 @@ class TagPublicController extends BaseController
         })->first(['*']);
 
         return $this->response->setMetaTitle($$tag->name . trans('blog::tag.name'))
-            ->view('blog::public.tag.show')
+            ->view('blog::tag.show')
             ->data(compact('tag'))
             ->output();
     }

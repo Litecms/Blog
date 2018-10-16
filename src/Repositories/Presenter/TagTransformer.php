@@ -14,7 +14,6 @@ class TagTransformer extends TransformerAbstract
             'name'              => $tag->name,
             'frequency'         => $tag->frequency,
             'slug'              => $tag->slug,
-            'published'         => $tag->published,
             'created_at'        => $tag->created_at,
             'updated_at'        => $tag->updated_at,
             'deleted_at'        => $tag->deleted_at,
@@ -22,7 +21,7 @@ class TagTransformer extends TransformerAbstract
                 'public' => trans_url('blog/'.$tag->getPublicKey()),
                 'user'   => guard_url('blog/tag/'.$tag->getRouteKey()),
             ], 
-            'status'            => trans('app.'.$tag->status),
+            'status'            => trans($tag->status),
             'created_at'        => format_date($tag->created_at),
             'updated_at'        => format_date($tag->updated_at),
         ];

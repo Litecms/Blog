@@ -40,7 +40,7 @@ class CommentPublicController extends BaseController
 
 
         return $this->response->setMetaTitle(trans('blog::comment.names'))
-            ->view('blog::public.comment.index')
+            ->view('blog::comment.index')
             ->data(compact('comments'))
             ->output();
     }
@@ -62,7 +62,7 @@ class CommentPublicController extends BaseController
 
 
         return $this->response->setMetaTitle(trans('blog::comment.names'))
-            ->view('blog::public.comment.index')
+            ->view('blog::comment.index')
             ->data(compact('comments'))
             ->output();
     }
@@ -82,7 +82,7 @@ class CommentPublicController extends BaseController
         })->first(['*']);
 
         return $this->response->setMetaTitle($$comment->name . trans('blog::comment.name'))
-            ->view('blog::public.comment.show')
+            ->view('blog::comment.show')
             ->data(compact('comment'))
             ->output();
     }

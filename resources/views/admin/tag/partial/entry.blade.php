@@ -5,15 +5,11 @@
                        -> placeholder(trans('blog::tag.placeholder.name'))!!}
                 </div>
 
-                <div class='col-md-4 col-sm-6'>
-                       {!! Form::numeric('frequency')
-                       -> label(trans('blog::tag.label.frequency'))
-                       -> placeholder(trans('blog::tag.placeholder.frequency'))!!}
-                </div>
+               
 
                 <div class='col-md-4 col-sm-6'>
-                   {!! Form::select('published')
-                  -> options(trans('blog::blog.options.published'))
-                   -> label(trans('blog::blog.label.published'))!!}
+                   {!! Form::select('status')
+                  -> options(trans('blog::tag.options.status'))
+                   -> label(trans('blog::tag.label.status'))!!}
                 </div>
             </div>

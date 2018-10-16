@@ -21,7 +21,7 @@ class CreateBlogCategoriesTable extends Migration
             $table->increments('id');
             $table->string('name', 255)->nullable();
             $table->string('slug', 255)->nullable();
-            $table->enum('status', ['show', 'hide'])->nullable();
+            $table->enum('status', ['Show', 'Hide'])->nullable();
             $table->string('user_type', 255)->nullable();
             $table->integer('user_id')->nullable();
             $table->string('upload_folder', 255)->nullable();

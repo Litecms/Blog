@@ -4,6 +4,7 @@ namespace Litecms\Blog\Http\Controllers;
 
 use App\Http\Controllers\PublicController as BaseController;
 use Litecms\Blog\Interfaces\BlogRepositoryInterface;
+use Litecms\Blog\Interfaces\CategoryRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 class BlogPublicController extends BaseController
 {
@@ -16,9 +17,11 @@ class BlogPublicController extends BaseController
      *
      * @return type
      */
-    public function __construct(BlogRepositoryInterface $blog)
+    public function __construct(BlogRepositoryInterface $blog, CategoryRepositoryInterface $category)
     {
         $this->repository = $blog;
+        $this->category = $category;
+        
         parent::__construct();
     }
 
@@ -33,13 +36,14 @@ class BlogPublicController extends BaseController
     {
         $blogs = $this->repository
         ->pushCriteria(app('Litepie\Repository\Criteria\RequestCriteria'))
+        ->pushCriteria(\Litecms\Blog\Repositories\Criteria\BlogPublicCriteria::class)
         ->scopeQuery(function($query){
             return $query->orderBy('id','DESC');
         })->paginate();
 
 
         return $this->response->setMetaTitle(trans('blog::blog.names'))
-            ->view('blog::public.blog.index')
+            ->view('blog::blog.index')
             ->data(compact('blogs'))
             ->output();
     }
@@ -61,7 +65,7 @@ class BlogPublicController extends BaseController
 
 
         return $this->response->setMetaTitle(trans('blog::blog.names'))
-            ->view('blog::public.blog.index')
+            ->view('blog::blog.index')
             ->data(compact('blogs'))
             ->output();
     }
@@ -79,27 +83,24 @@ class BlogPublicController extends BaseController
             return $query->orderBy('id','DESC')
                          ->where('slug', $slug);
         })->first(['*']);
-
+        $blog->increment('viewcount');
         return $this->response->setMetaTitle(trans('blog::blog.name'))
-            ->view('blog::public.blog.show')
+            ->view('blog::blog.show')
             ->data(compact('blog'))
             ->output();
     }
 
-    protected function categorydisplay($key)
+    protected function categorydisplay($slug)
     {
-        $category_id = DB::table('blog_categories')->select('id')->where('slug','=', $key)->get();
-        foreach($category_id as $key)
-        {
-            $category_id = $key->id;
-        }
-        $blogs = $this->repository->scopeQuery(function($query) use ($category_id) {
+        $category = $this->category->findBySlug($slug);
+        
+        $blogs = $this->repository->scopeQuery(function($query) use ($category) {
             return $query->orderBy('id','DESC')
-                         ->where('category_id', $category_id);
+                         ->where('category_id', $category['id']);
         })->paginate();
 
         return $this->response->setMetaTitle(trans('blog::blog.names'))
-            ->view('blog::public.blog.index')
+            ->view('blog::blog.index')
             ->data(compact('blogs'))
             ->output();
     }
@@ -112,7 +113,7 @@ class BlogPublicController extends BaseController
         })->paginate();
 
         return $this->response->setMetaTitle(trans('blog::blog.names'))
-            ->view('blog::public.blog.index')
+            ->view('blog::blog.index')
             ->data(compact('blogs'))
             ->output();
     }
@@ -125,7 +126,7 @@ class BlogPublicController extends BaseController
         })->paginate();
 
         return $this->response->setMetaTitle(trans('blog::blog.names'))
-            ->view('blog::public.blog.index')
+            ->view('blog::blog.index')
             ->data(compact('blogs'))
             ->output();
         

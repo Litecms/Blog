@@ -1,10 +1,10 @@
-            @include('blog::public.comment.partial.header')
+            @include('blog::comment.partial.header')
 
             <section class="grid">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-3">
-                            @include('blog::public.comment.partial.aside')
+                            @include('blog::comment.partial.aside')
                         </div>
                         <div class="col-md-9 ">
                             <div class="main-area parent-border list-item">

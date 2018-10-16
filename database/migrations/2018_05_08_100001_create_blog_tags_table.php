@@ -23,7 +23,7 @@ class CreateBlogTagsTable extends Migration
             $table->string('name', 255)->nullable();
             $table->integer('frequency')->nullable();
             $table->string('slug', 255)->nullable();
-            $table->enum('published', ['yes','no'])->nullable();
+            $table->enum('status', ['Show','Hide'])->nullable();
             $table->softDeletes();
             $table->nullableTimestamps();
         });

@@ -24,4 +24,9 @@ class BlogRepository extends BaseRepository implements BlogRepositoryInterface
     {
         return config('litecms.blog.blog.model.model');
     }
+
+    public function updatePublish($id, $attribute)
+    {
+        return $this->model->where('id', $id)->update($attribute);
+    }
 }

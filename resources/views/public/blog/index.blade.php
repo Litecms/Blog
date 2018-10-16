@@ -1,5 +1,5 @@
  
-                   @include('blog::public.blog.partial.header')
+                   @include('blog::blog.partial.header')
 
             
               <section class="grid">
@@ -18,7 +18,7 @@
                                 <div class="widget category">
                                     
                                     <ul class="mt-20">
-                                         @include('blog::public.blog.partial.aside')
+                                         @include('blog::blog.partial.aside')
                                     </ul>
                                 </div>
 

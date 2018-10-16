@@ -1,4 +1,4 @@
-       @include('blog::public.blog.partial.header')
+       @include('blog::blog.partial.header')
 
 
 <section class="single">
@@ -11,7 +11,7 @@
                                 <div class="widget category">
                                    
                                     <ul class="mt-20">
-                                        @include('blog::public.blog.partial.aside')
+                                        @include('blog::blog.partial.aside')
                                     </ul>
                                 </div>
                             </div>
@@ -20,7 +20,7 @@
                             <div class="area">
                                 <div class="item">
                                     <div class="feature">
-                                        <img class="img-responsive center-block" src="{{url($blog->defaultImage('images'))}}" alt="">
+                                        <img class="img-responsive center-block" src="{{url($blog->defaultImage('images','original'))}}" alt="">
                                     </div>
                                     <div class="content">
                                         <h4>{{$blog->title}}</h4>

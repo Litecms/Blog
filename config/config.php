@@ -81,7 +81,7 @@ return [
             'slugs'                 => ['slug' => 'title'],
             'dates'                 => ['deleted_at', 'created_at', 'updated_at', 'published_at'],
             'appends'               => [],
-            'fillable'              => ['id',  'category_id',  'title',  'description',  'images',  'tags',  'viewcount',  'slug',  'published',  'published_at',  'user_type',  'user_id',  'upload_folder',  'created_at',  'updated_at',  'deleted_at'],
+            'fillable'              => ['id',  'category_id',  'title',  'description',  'images',  'tags',  'viewcount',  'slug',  'meta_title', 'meta_description', 'meta_keyword', 'published',  'published_at',  'user_type',  'user_id',  'upload_folder',  'created_at',  'updated_at',  'deleted_at'],
             'translatables'         => [],
             'upload_folder'         => 'blog/blog',
             'uploads'               => [
@@ -183,7 +183,7 @@ return [
             'slugs'                 => ['slug' => 'name'],
             'dates'                 => ['deleted_at', 'created_at', 'updated_at'],
             'appends'               => [],
-            'fillable'              => ['id',  'name',  'frequency',  'slug',  'published',  'created_at',  'updated_at',  'deleted_at'],
+            'fillable'              => ['id',  'name',  'frequency',  'slug',  'status',  'created_at',  'updated_at',  'deleted_at'],
             'translatables'         => [],
             'upload_folder'         => 'blog/tag',
             'uploads'               => [

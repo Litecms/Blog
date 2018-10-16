@@ -17,8 +17,8 @@
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
                     <li class="{!!(request('status') == '')?'active':'';!!}"><a href="{!!guard_url('blog/blog')!!}">{!! trans('blog::blog.names') !!}</a></li>
-                    <li class="{!!(request('status') == 'archive')?'active':'';!!}"><a href="{!!guard_url('blog/blog?status=archive')!!}">Archived</a></li>
-                    <li class="{!!(request('status') == 'deleted')?'active':'';!!}"><a href="{!!guard_url('blog/blog?status=deleted')!!}">Trashed</a></li>
+                    <li class="{!!(request('status') == 'archive')?'active':'';!!}"><a href="{!!guard_url('blog/category')!!}">Category</a></li>
+                    <li class="{!!(request('status') == 'deleted')?'active':'';!!}"><a href="{!!guard_url('blog/tag')!!}">Tag</a></li>
                     <li class="pull-right">
                     <span class="actions">
                     <!--   
@@ -34,13 +34,10 @@
                 <table id="blog-blog-list" class="table table-striped data-table">
                     <thead class="list_head">
                         <th style="text-align: right;" width="1%"><a class="btn-reset-filter" href="#Reset" style="display:none; color:#fff;"><i class="fa fa-filter"></i></a> <input type="checkbox" id="blog-blog-check-all"></th>
-                        <th data-field="id">{!! trans('blog::blog.label.id')!!}</th>
                     <th data-field="category_id">{!! trans('blog::blog.label.category_id')!!}</th>
                     <th data-field="title">{!! trans('blog::blog.label.title')!!}</th>
                     <th data-field="viewcount">{!! trans('blog::blog.label.viewcount')!!}</th>
                     <th data-field="published">{!! trans('blog::blog.label.published')!!}</th>
-                    <th data-field="published_at">{!! trans('blog::blog.label.published_at')!!}</th>
-                    <th data-field="user_type">{!! trans('blog::blog.label.user_type')!!}</th>
                     <th data-field="created_at">{!! trans('blog::blog.label.created_at')!!}</th>
                     </thead>
                 </table>
@@ -89,13 +86,10 @@ $(document).ready(function(){
 
         "columns": [
             {data :'id'},
-            {data :'id'},
             {data :'category_id'},
             {data :'title'},
             {data :'viewcount'},
             {data :'published'},
-            {data :'published_at'},
-            {data :'user_type'},
             {data :'created_at'},
         ],
         "pageLength": 25

@@ -48,7 +48,7 @@ class BlogResourceController extends BaseController
 
         $blogs = $this->repository->paginate();
 
-        return $this->response->setMetaTitle(trans('blog::blog.names'))
+        return $this->response->setMetaTitle('Blog')
             ->view('blog::blog.index', true)
             ->data(compact('blogs'))
             ->output();
@@ -71,7 +71,7 @@ class BlogResourceController extends BaseController
             $view = 'blog::blog.new';
         }
 
-        return $this->response->setMetaTitle(trans('app.view') . ' ' . trans('blog::blog.name'))
+        return $this->response->setMetaTitle($blog['meta_title'])
             ->data(compact('blog'))
             ->view($view, true)
             ->output();
@@ -263,4 +263,28 @@ class BlogResourceController extends BaseController
 
     }
 
+    public function publish($id , $data )
+    {
+        $id = hashids_decode($id);
+        $blog = $this->repository->scopeQuery(function($query) use ($id) {
+            return $query->orderBy('id','DESC')
+                         ->where('id', $id);
+        })->first(['*']);
+
+        if($data == 'unpublish'){
+            $attribute['published'] = 'no'; 
+        }
+        else{
+            $attribute['published'] = 'yes';
+            $attribute['published_at'] = value(date('Y-m-d'));
+
+        }
+        $this->repository->updatePublish($id, $attribute);
+
+        return $this->response->message(trans('messages.success.updated', ['Module' => trans('blog::blog.name')]))
+                ->code(204)
+                ->status('success')
+                ->url(guard_url('blog/blog/' . $blog->getRouteKey()))
+                ->redirect();
+    }
 }

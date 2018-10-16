@@ -1,16 +1,16 @@
 <?php
 
-namespace Lavalite\Package\Repositories\Criteria;
+namespace Litecms\Blog\Repositories\Criteria;
 
 use Litepie\Contracts\Repository\Criteria as CriteriaInterface;
 use Litepie\Contracts\Repository\Repository as RepositoryInterface;
 
-class ModulePublicCriteria implements CriteriaInterface
+class TagPublicCriteria implements CriteriaInterface
 {
 
     public function apply($model, RepositoryInterface $repository)
     {
-        $model = $model;
+        $model = $model->where('status', '=', 'show');
         return $model;
     }
 }
