@@ -29,7 +29,7 @@ class BlogServiceProvider extends ServiceProvider
         // Load migrations
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
 
-        // Call pblish redources function
+        // Call publish resources function
         $this->publishResources();
 
     }

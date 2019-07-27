@@ -1,7 +1,7 @@
 <?php
 
 // Resource routes  for category
-Route::group(['prefix' => set_route_guard('web').'/blog'], function () {
+Route::group(['prefix' => '{guard}/blog'], function () {
     Route::resource('category', 'CategoryResourceController');
 });
 
@@ -12,7 +12,8 @@ Route::get('category/{slug?}', 'CategoryPublicController@show');
 
 
 // Resource routes  for blog
-Route::group(['prefix' => set_route_guard('web').'/blog'], function () {
+Route::group(['prefix' => '{guard}/blog'], function () {
+    Route::get('publish/{id?}/{data}', 'BlogResourceController@publish');
     Route::resource('blog', 'BlogResourceController');
 });
 
@@ -25,7 +26,7 @@ Route::get('blogs/user/{user_id?}', 'BlogPublicController@displaybyuser');
 Route::get('blogs/tag/{tag?}', 'BlogPublicController@tagdisplay');
 
 // Resource routes  for comment
-Route::group(['prefix' => set_route_guard('web').'/blog'], function () {
+Route::group(['prefix' => '{guard}/blog'], function () {
     Route::resource('comment', 'CommentResourceController');
 });
 
@@ -37,7 +38,7 @@ Route::post('comment/post/{slug}', 'CommentPublicController@postcomment');
 
 
 // Resource routes  for tag
-Route::group(['prefix' => set_route_guard('web').'/blog'], function () {
+Route::group(['prefix' => '{guard}/blog'], function () {
     Route::resource('tag', 'TagResourceController');
 });
 
@@ -45,4 +46,3 @@ Route::group(['prefix' => set_route_guard('web').'/blog'], function () {
 Route::get('tag/popular/{period?}', 'TagPublicController@popular');
 Route::get('tags/', 'TagPublicController@index');
 Route::get('tag/{slug?}', 'TagPublicController@show');
-
