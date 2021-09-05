@@ -2,11 +2,15 @@
 
 namespace Litecms\Blog\Http\Controllers;
 
-use App\Http\Controllers\ResourceController as BaseController;
-use Form;
+use Exception;
+use Litepie\Http\Controllers\ResourceController as BaseController;
+use Litepie\Repository\Filter\RequestFilter;
+use Litecms\Blog\Forms\Blog as BlogForm;
 use Litecms\Blog\Http\Requests\BlogRequest;
 use Litecms\Blog\Interfaces\BlogRepositoryInterface;
-use Litecms\Blog\Models\Blog;
+use Litecms\Blog\Repositories\Eloquent\Filters\BlogResourceFilter;
+use Litecms\Blog\Repositories\Eloquent\Presenters\BlogListPresenter;
+use Str;
 
 /**
  * Resource controller class for blog.
@@ -17,17 +21,15 @@ class BlogResourceController extends BaseController
     /**
      * Initialize blog resource controller.
      *
-     * @param type BlogRepositoryInterface $blog
      *
      * @return null
      */
     public function __construct(BlogRepositoryInterface $blog)
     {
         parent::__construct();
+        $this->form = BlogForm::setAttributes()->toArray();
+        $this->modules = $this->modules(config('litecms.blog.modules'), 'blog', guard_url('blog'));
         $this->repository = $blog;
-        $this->repository
-            ->pushCriteria(\Litepie\Repository\Criteria\RequestCriteria::class)
-            ->pushCriteria(\Litecms\Blog\Repositories\Criteria\BlogResourceCriteria::class);
     }
 
     /**
@@ -37,20 +39,23 @@ class BlogResourceController extends BaseController
      */
     public function index(BlogRequest $request)
     {
-        $view = $this->response->theme->listView();
 
-        if ($this->response->typeIs('json')) {
-            $function = camel_case('get-' . $view);
-            return $this->repository
-                ->setPresenter(\Litecms\Blog\Repositories\Presenter\BlogPresenter::class)
-                ->$function();
-        }
+        $pageLimit = $request->input('pageLimit', config('database.pagination.limit'));
+        $data = $this->repository
+            ->pushFilter(RequestFilter::class)
+            ->pushFilter(BlogResourceFilter::class)
+            ->setPresenter(BlogListPresenter::class)
+            ->simplePaginate($pageLimit)
+            // ->withQueryString()
+            ->toArray();
 
-        $blogs = $this->repository->paginate();
+        extract($data);
+        $form = $this->form;
+        $modules = $this->modules;
 
-        return $this->response->title(trans('blog::blog.names'))
-            ->view('blog::blog.index', true)
-            ->data(compact('blogs'))
+        return $this->response->setMetaTitle(trans('blog::blog.names'))
+            ->view('blog::blog.index')
+            ->data(compact('data', 'meta', 'links', 'modules', 'form'))
             ->output();
     }
 
@@ -62,18 +67,15 @@ class BlogResourceController extends BaseController
      *
      * @return Response
      */
-    public function show(BlogRequest $request, Blog $blog)
+    public function show(BlogRequest $request, BlogRepositoryInterface $repository)
     {
-
-        if ($blog->exists) {
-            $view = 'blog::blog.show';
-        } else {
-            $view = 'blog::blog.new';
-        }
-
-        return $this->response->title(trans('app.view') . ' ' . trans('blog::blog.name'))
-            ->data(compact('blog'))
-            ->view($view, true)
+        $form = $this->form;
+        $modules = $this->modules;
+        $data = $repository->toArray();
+        return $this->response
+            ->setMetaTitle(trans('app.view') . ' ' . trans('blog::blog.name'))
+            ->data(compact('data', 'form', 'modules', 'form'))
+            ->view('blog::blog.show')
             ->output();
     }
 
@@ -81,16 +83,17 @@ class BlogResourceController extends BaseController
      * Show the form for creating a new blog.
      *
      * @param Request $request
-     *
+     *x
      * @return Response
      */
-    public function create(BlogRequest $request)
+    public function create(BlogRequest $request, BlogRepositoryInterface $repository)
     {
-        
-        $blog = $this->repository->newInstance([]);
-        return $this->response->title(trans('app.new') . ' ' . trans('blog::blog.name')) 
-            ->view('blog::blog.create', true) 
-            ->data(compact('blog'))
+        $form = $this->form;
+        $modules = $this->modules;
+        $data = $repository->toArray();
+        return $this->response->setMetaTitle(trans('app.new') . ' ' . trans('blog::blog.name'))
+            ->view('blog::blog.create')
+            ->data(compact('data', 'form', 'modules'))
             ->output();
     }
 
@@ -101,18 +104,21 @@ class BlogResourceController extends BaseController
      *
      * @return Response
      */
-    public function store(BlogRequest $request)
+    public function store(BlogRequest $request, BlogRepositoryInterface $repository)
     {
         try {
-            $attributes              = $request->all(); 
-            $attributes['user_id']   = user_id();
+            $attributes = $request->all();
+            $attributes['user_id'] = user_id();
             $attributes['user_type'] = user_type();
-            $blog                 = $this->repository->create($attributes);
+            $attributes['slug'] = str_slug('title');
+            $repository->create($attributes);
+            $data = $repository->toArray();
 
             return $this->response->message(trans('messages.success.created', ['Module' => trans('blog::blog.name')]))
                 ->code(204)
+                ->data(compact('data'))
                 ->status('success')
-                ->url(guard_url('blog/blog/' . $blog->getRouteKey()))
+                ->url(guard_url('blog/blog/' . $data['id']))
                 ->redirect();
         } catch (Exception $e) {
             return $this->response->message($e->getMessage())
@@ -132,11 +138,15 @@ class BlogResourceController extends BaseController
      *
      * @return Response
      */
-    public function edit(BlogRequest $request, Blog $blog)
+    public function edit(BlogRequest $request, BlogRepositoryInterface $repository)
     {
-        return $this->response->title(trans('app.edit') . ' ' . trans('blog::blog.name'))
-            ->view('blog::blog.edit', true)
-            ->data(compact('blog'))
+        $form = $this->form;
+        $modules = $this->modules;
+        $data = $repository->toArray();
+
+        return $this->response->setMetaTitle(trans('app.edit') . ' ' . trans('blog::blog.name'))
+            ->view('blog::blog.edit')
+            ->data(compact('data', 'form', 'modules'))
             ->output();
     }
 
@@ -148,22 +158,24 @@ class BlogResourceController extends BaseController
      *
      * @return Response
      */
-    public function update(BlogRequest $request, Blog $blog)
+    public function update(BlogRequest $request, BlogRepositoryInterface $repository)
     {
         try {
             $attributes = $request->all();
+            $repository->update($attributes);
+            $data = $repository->toArray();
 
-            $blog->update($attributes);
             return $this->response->message(trans('messages.success.updated', ['Module' => trans('blog::blog.name')]))
                 ->code(204)
                 ->status('success')
-                ->url(guard_url('blog/blog/' . $blog->getRouteKey()))
+                ->data(compact('data'))
+                ->url(guard_url('blog/blog/' . $data['id']))
                 ->redirect();
         } catch (Exception $e) {
             return $this->response->message($e->getMessage())
                 ->code(400)
                 ->status('error')
-                ->url(guard_url('blog/blog/' . $blog->getRouteKey()))
+                ->url(guard_url('blog/blog/' .  $repository->getRouteKey()))
                 ->redirect();
         }
 
@@ -176,14 +188,16 @@ class BlogResourceController extends BaseController
      *
      * @return Response
      */
-    public function destroy(BlogRequest $request, Blog $blog)
+    public function destroy(BlogRequest $request, BlogRepositoryInterface $repository)
     {
         try {
+            $repository->delete();
+            $data = $repository->toArray();
 
-            $blog->delete();
             return $this->response->message(trans('messages.success.deleted', ['Module' => trans('blog::blog.name')]))
                 ->code(202)
                 ->status('success')
+                ->data(compact('data'))
                 ->url(guard_url('blog/blog/0'))
                 ->redirect();
 
@@ -192,75 +206,9 @@ class BlogResourceController extends BaseController
             return $this->response->message($e->getMessage())
                 ->code(400)
                 ->status('error')
-                ->url(guard_url('blog/blog/' . $blog->getRouteKey()))
+                ->url(guard_url('blog/blog/' .  $repository->getRouteKey()))
                 ->redirect();
         }
 
     }
-
-    /**
-     * Remove multiple blog.
-     *
-     * @param Model   $blog
-     *
-     * @return Response
-     */
-    public function delete(BlogRequest $request, $type)
-    {
-        try {
-            $ids = hashids_decode($request->input('ids'));
-
-            if ($type == 'purge') {
-                $this->repository->purge($ids);
-            } else {
-                $this->repository->delete($ids);
-            }
-
-            return $this->response->message(trans('messages.success.deleted', ['Module' => trans('blog::blog.name')]))
-                ->status("success")
-                ->code(202)
-                ->url(guard_url('blog/blog'))
-                ->redirect();
-
-        } catch (Exception $e) {
-
-            return $this->response->message($e->getMessage())
-                ->status("error")
-                ->code(400)
-                ->url(guard_url('/blog/blog'))
-                ->redirect();
-        }
-
-    }
-
-    /**
-     * Restore deleted blogs.
-     *
-     * @param Model   $blog
-     *
-     * @return Response
-     */
-    public function restore(BlogRequest $request)
-    {
-        try {
-            $ids = hashids_decode($request->input('ids'));
-            $this->repository->restore($ids);
-
-            return $this->response->message(trans('messages.success.restore', ['Module' => trans('blog::blog.name')]))
-                ->status("success")
-                ->code(202)
-                ->url(guard_url('/blog/blog'))
-                ->redirect();
-
-        } catch (Exception $e) {
-
-            return $this->response->message($e->getMessage())
-                ->status("error")
-                ->code(400)
-                ->url(guard_url('/blog/blog/'))
-                ->redirect();
-        }
-
-    }
-
 }

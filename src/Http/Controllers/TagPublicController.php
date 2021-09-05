@@ -3,68 +3,54 @@
 namespace Litecms\Blog\Http\Controllers;
 
 use App\Http\Controllers\PublicController as BaseController;
+use App\Http\Requests\PublicRequest;
+use Litepie\Repository\Filter\RequestFilter;
+use Litecms\Blog\Repositories\Eloquent\Filters\TagPublicFilter;
+use Litecms\Blog\Repositories\Eloquent\Presenters\TagListPresenter;
 use Litecms\Blog\Interfaces\TagRepositoryInterface;
 
 class TagPublicController extends BaseController
 {
-    // use TagWorkflow;
 
     /**
      * Constructor.
      *
-     * @param type \Litecms\Tag\Interfaces\TagRepositoryInterface $tag
-     *
-     * @return type
+     * @return void
      */
     public function __construct(TagRepositoryInterface $tag)
     {
-        $this->repository = $tag;
         parent::__construct();
+        $this->modules = $this->modules(config('litecms.blog.modules'), 'blog', guard_url('blog'));
+        $this->repository = $tag;
+
     }
 
     /**
      * Show tag's list.
      *
-     * @param string $slug
-     *
      * @return response
      */
-    protected function index()
+    protected function index(PublicRequest $request)
     {
-        $tags = $this->repository
-        ->pushCriteria(app('Litepie\Repository\Criteria\RequestCriteria'))
-        ->scopeQuery(function($query){
-            return $query->orderBy('id','DESC');
-        })->paginate();
 
+        $pageLimit = $request->input('pageLimit', config('database.pagination.limit'));
+        $data = $this->repository
+            ->pushFilter(RequestFilter::class)
+            ->pushFilter(TagPublicFilter::class)
+            ->setPresenter(TagListPresenter::class)
+            ->simplePaginate($pageLimit)
+            // ->withQueryString()
+            ->toArray();
 
-        return $this->response->title(trans('blog::tag.names'))
+        extract($data);
+        $modules = $this->modules;
+
+        return $this->response->setMetaTitle(trans('blog::tag.names'))
             ->view('blog::public.tag.index')
-            ->data(compact('tags'))
+            ->data(compact('data', 'meta', 'modules'))
             ->output();
     }
 
-    /**
-     * Show tag's list based on a type.
-     *
-     * @param string $slug
-     *
-     * @return response
-     */
-    protected function list($type = null)
-    {
-        $tags = $this->repository
-        ->pushCriteria(app('Litepie\Repository\Criteria\RequestCriteria'))
-        ->scopeQuery(function($query){
-            return $query->orderBy('id','DESC');
-        })->paginate();
-
-
-        return $this->response->title(trans('blog::tag.names'))
-            ->view('blog::public.tag.index')
-            ->data(compact('tags'))
-            ->output();
-    }
 
     /**
      * Show tag.
@@ -73,16 +59,16 @@ class TagPublicController extends BaseController
      *
      * @return response
      */
-    protected function show($slug)
+    protected function show(PublicRequest $request, $slug)
     {
-        $tag = $this->repository->scopeQuery(function($query) use ($slug) {
-            return $query->orderBy('id','DESC')
-                         ->where('slug', $slug);
-        })->first(['*']);
+        $data = $this->repository
+            ->findBySlug($slug)
+            ->toArray();
+        $modules = $this->modules;
 
-        return $this->response->title($$tag->name . trans('blog::tag.name'))
+        return $this->response->setMetaTitle($data['name'] . trans('blog::tag.name'))
             ->view('blog::public.tag.show')
-            ->data(compact('tag'))
+            ->data(compact('data', 'modules'))
             ->output();
     }
 

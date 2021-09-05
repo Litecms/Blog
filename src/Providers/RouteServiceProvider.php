@@ -5,6 +5,7 @@ namespace Litecms\Blog\Providers;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
 use Litecms\Blog\Models\Blog;
+
 use Request;
 use Route;
 
@@ -29,31 +30,22 @@ class RouteServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        if (Request::is('*/blog/category/*')) {
-            Route::bind('category', function ($category) {
-                $categoryrepo = $this->app->make('Litecms\Blog\Interfaces\CategoryRepositoryInterface');
-                return $categoryrepo->findorNew($category);
-            });
-        }
-
         if (Request::is('*/blog/blog/*')) {
             Route::bind('blog', function ($blog) {
-                $blogrepo = $this->app->make('Litecms\Blog\Interfaces\BlogRepositoryInterface');
-                return $blogrepo->findorNew($blog);
+                $blogRepo = $this->app->make('Litecms\Blog\Interfaces\BlogRepositoryInterface');
+                return $blogRepo->findorNew($blog);
             });
         }
-
-        if (Request::is('*/blog/comment/*')) {
-            Route::bind('comment', function ($comment) {
-                $commentrepo = $this->app->make('Litecms\Blog\Interfaces\CommentRepositoryInterface');
-                return $commentrepo->findorNew($comment);
+        if (Request::is('*/blog/category/*')) {
+            Route::bind('category', function ($category) {
+                $categoryRepo = $this->app->make('Litecms\Blog\Interfaces\CategoryRepositoryInterface');
+                return $categoryRepo->findorNew($category);
             });
         }
-
         if (Request::is('*/blog/tag/*')) {
             Route::bind('tag', function ($tag) {
-                $tagrepo = $this->app->make('Litecms\Blog\Interfaces\TagRepositoryInterface');
-                return $tagrepo->findorNew($tag);
+                $tagRepo = $this->app->make('Litecms\Blog\Interfaces\TagRepositoryInterface');
+                return $tagRepo->findorNew($tag);
             });
         }
 
@@ -67,6 +59,8 @@ class RouteServiceProvider extends ServiceProvider
     public function map()
     {
         $this->mapWebRoutes();
+
+        $this->mapApiRoutes();
     }
 
     /**
@@ -77,17 +71,30 @@ class RouteServiceProvider extends ServiceProvider
      * @return void
      */
     protected function mapWebRoutes()
-    {
-        if (request()->segment(1) == 'api' || request()->segment(2) == 'api') {
-            return;
-        }
-        
+    {   
         Route::group([
             'middleware' => 'web',
             'namespace'  => $this->namespace,
-            'prefix'     => trans_setlocale(),
         ], function ($router) {
             require (__DIR__ . '/../../routes/web.php');
+        });
+    }
+
+    /**
+     * Define the "api" routes for the package.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapApiRoutes()
+    {
+        Route::group([
+            'middleware' => 'api',
+            'namespace'  => $this->namespace,
+            'prefix'     => 'api',
+        ], function ($router) {
+            require (__DIR__ . '/../../routes/api.php');
         });
     }
 

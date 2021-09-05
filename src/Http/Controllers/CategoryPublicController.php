@@ -3,68 +3,54 @@
 namespace Litecms\Blog\Http\Controllers;
 
 use App\Http\Controllers\PublicController as BaseController;
+use App\Http\Requests\PublicRequest;
+use Litepie\Repository\Filter\RequestFilter;
+use Litecms\Blog\Repositories\Eloquent\Filters\CategoryPublicFilter;
+use Litecms\Blog\Repositories\Eloquent\Presenters\CategoryListPresenter;
 use Litecms\Blog\Interfaces\CategoryRepositoryInterface;
 
 class CategoryPublicController extends BaseController
 {
-    // use CategoryWorkflow;
 
     /**
      * Constructor.
      *
-     * @param type \Litecms\Category\Interfaces\CategoryRepositoryInterface $category
-     *
-     * @return type
+     * @return void
      */
     public function __construct(CategoryRepositoryInterface $category)
     {
-        $this->repository = $category;
         parent::__construct();
+        $this->modules = $this->modules(config('litecms.blog.modules'), 'blog', guard_url('blog'));
+        $this->repository = $category;
+
     }
 
     /**
      * Show category's list.
      *
-     * @param string $slug
-     *
      * @return response
      */
-    protected function index()
+    protected function index(PublicRequest $request)
     {
-        $categories = $this->repository
-        ->pushCriteria(app('Litepie\Repository\Criteria\RequestCriteria'))
-        ->scopeQuery(function($query){
-            return $query->orderBy('id','DESC');
-        })->paginate();
 
+        $pageLimit = $request->input('pageLimit', config('database.pagination.limit'));
+        $data = $this->repository
+            ->pushFilter(RequestFilter::class)
+            ->pushFilter(CategoryPublicFilter::class)
+            ->setPresenter(CategoryListPresenter::class)
+            ->simplePaginate($pageLimit)
+            // ->withQueryString()
+            ->toArray();
 
-        return $this->response->title(trans('blog::category.names'))
+        extract($data);
+        $modules = $this->modules;
+
+        return $this->response->setMetaTitle(trans('blog::category.names'))
             ->view('blog::public.category.index')
-            ->data(compact('categories'))
+            ->data(compact('data', 'meta', 'modules'))
             ->output();
     }
 
-    /**
-     * Show category's list based on a type.
-     *
-     * @param string $slug
-     *
-     * @return response
-     */
-    protected function list($type = null)
-    {
-        $categories = $this->repository
-        ->pushCriteria(app('Litepie\Repository\Criteria\RequestCriteria'))
-        ->scopeQuery(function($query){
-            return $query->orderBy('id','DESC');
-        })->paginate();
-
-
-        return $this->response->title(trans('blog::category.names'))
-            ->view('blog::public.category.index')
-            ->data(compact('categories'))
-            ->output();
-    }
 
     /**
      * Show category.
@@ -73,16 +59,16 @@ class CategoryPublicController extends BaseController
      *
      * @return response
      */
-    protected function show($slug)
+    protected function show(PublicRequest $request, $slug)
     {
-        $category = $this->repository->scopeQuery(function($query) use ($slug) {
-            return $query->orderBy('id','DESC')
-                         ->where('slug', $slug);
-        })->first(['*']);
+        $data = $this->repository
+            ->findBySlug($slug)
+            ->toArray();
+        $modules = $this->modules;
 
-        return $this->response->title($$category->name . trans('blog::category.name'))
+        return $this->response->setMetaTitle($data['name'] . trans('blog::category.name'))
             ->view('blog::public.category.show')
-            ->data(compact('category'))
+            ->data(compact('data', 'modules'))
             ->output();
     }
 

@@ -3,16 +3,16 @@
 namespace Litecms\Blog\Repositories\Eloquent;
 
 use Litecms\Blog\Interfaces\CategoryRepositoryInterface;
-use Litepie\Repository\Eloquent\BaseRepository;
+use Litepie\Repository\BaseRepository;
+use Litecms\Blog\Repositories\Eloquent\Presenters\CategoryItemPresenter;
+
 
 class CategoryRepository extends BaseRepository implements CategoryRepositoryInterface
 {
 
-
     public function boot()
     {
         $this->fieldSearchable = config('litecms.blog.category.model.search');
-
     }
 
     /**
@@ -24,17 +24,22 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     {
         return config('litecms.blog.category.model.model');
     }
-    
-    public function selectCategories()
-    {
-        return $this->pluck('name','slug');
-    }
 
-    public function selectadminCategories()
+    /**
+     * Returns the default presenter if none is availabale.
+     *
+     * @return void
+     */
+    public function presenter()
     {
-        return $this->pluck('name','id');
+        return CategoryItemPresenter::class;
     }
-
-   
-    
+    public function categories()
+    {
+        return $this->model->orderBy('name', 'ASC')->get();
+    }
+    public function category()
+    {
+        return $this->model->get()->pluck('name','id');
+    }
 }

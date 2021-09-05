@@ -3,68 +3,67 @@
 namespace Litecms\Blog\Http\Controllers;
 
 use App\Http\Controllers\PublicController as BaseController;
+use App\Http\Requests\PublicRequest;
+use Litepie\Repository\Filter\RequestFilter;
+use Litecms\Blog\Repositories\Eloquent\Filters\BlogPublicFilter;
+use Litecms\Blog\Repositories\Eloquent\Presenters\BlogListPresenter;
 use Litecms\Blog\Interfaces\BlogRepositoryInterface;
-use Illuminate\Support\Facades\DB;
+use Litecms\Blog\Interfaces\CategoryRepositoryInterface;
+use Litecms\Blog\Interfaces\TagRepositoryInterface;
+
 class BlogPublicController extends BaseController
 {
-    // use BlogWorkflow;
 
     /**
      * Constructor.
      *
-     * @param type \Litecms\Blog\Interfaces\BlogRepositoryInterface $blog
-     *
-     * @return type
+     * @return void
      */
-    public function __construct(BlogRepositoryInterface $blog)
+    public function __construct(BlogRepositoryInterface $blog,CategoryRepositoryInterface $category,TagRepositoryInterface $tag)
     {
-        $this->repository = $blog;
         parent::__construct();
+        $this->modules = $this->modules(config('litecms.blog.modules'), 'blog', guard_url('blog'));
+        $this->category = $category;
+        $this->tag = $tag;
+        $this->repository = $blog;
+
     }
 
     /**
      * Show blog's list.
      *
-     * @param string $slug
-     *
      * @return response
      */
-    protected function index()
+    protected function index(PublicRequest $request)
     {
-        $blogs = $this->repository
-        ->pushCriteria(app('Litepie\Repository\Criteria\RequestCriteria'))
-        ->scopeQuery(function($query){
-            return $query->orderBy('id','DESC');
-        })->paginate();
 
+        $search=$request->search;
+        $pageLimit = $request->input('pageLimit', config('database.pagination.limit'));
+        $data = $this->repository->where('published','yes')
+            ->pushFilter(RequestFilter::class)
+            ->pushFilter(BlogPublicFilter::class)
+            ->setPresenter(BlogListPresenter::class)
+            ->Paginate($pageLimit);
+            // ->withQueryString()
+            // ->toArray();
+           
+        // extract($data);
+        $categories = $this->category->categories();
+        $tags = $this->tag->tags();
+        $blogs= $this->repository->recentBlogs();
+        $modules = $this->modules;
 
-        return $this->response->title(trans('blog::blog.names'))
-            ->view('blog::public.blog.index')
-            ->data(compact('blogs'))
+        $view = 'index';
+        if ($request->ajax()) {
+            $view = 'filter';
+        }
+
+        return $this->response->setMetaTitle(trans('blog::blog.names'))
+            ->view('blog::public.blog.'.$view)
+            ->data(compact('data', 'modules','categories','tags','blogs'))
             ->output();
     }
 
-    /**
-     * Show blog's list based on a type.
-     *
-     * @param string $slug
-     *
-     * @return response
-     */
-    protected function list($type = null)
-    {
-        $blogs = $this->repository
-        ->pushCriteria(app('Litepie\Repository\Criteria\RequestCriteria'))
-        ->scopeQuery(function($query){
-            return $query->orderBy('id','DESC');
-        })->paginate();
-
-
-        return $this->response->title(trans('blog::blog.names'))
-            ->view('blog::public.blog.index')
-            ->data(compact('blogs'))
-            ->output();
-    }
 
     /**
      * Show blog.
@@ -73,62 +72,23 @@ class BlogPublicController extends BaseController
      *
      * @return response
      */
-    protected function show($slug)
+    protected function show(PublicRequest $request, $slug)
     {
-        $blog = $this->repository->scopeQuery(function($query) use ($slug) {
-            return $query->orderBy('id','DESC')
-                         ->where('slug', $slug);
-        })->first(['*']);
+        $data = $this->repository
+            ->findBySlug($slug)
+            ->toArray();
+        $modules = $this->modules;
 
-        return $this->response->title(trans('blog::blog.name'))
+        $categories = $this->category->categories();
+
+        $tags = $this->tag->tags();
+
+        $blogs= $this->repository->recentBlogs();
+
+        return $this->response->setMetaTitle($data['title'] . trans('blog::blog.name'))
             ->view('blog::public.blog.show')
-            ->data(compact('blog'))
+            ->data(compact('data', 'modules','categories','tags','blogs'))
             ->output();
-    }
-
-    protected function categorydisplay($key)
-    {
-        $category_id = DB::table('blog_categories')->select('id')->where('slug','=', $key)->get();
-        foreach($category_id as $key)
-        {
-            $category_id = $key->id;
-        }
-        $blogs = $this->repository->scopeQuery(function($query) use ($category_id) {
-            return $query->orderBy('id','DESC')
-                         ->where('category_id', $category_id);
-        })->paginate();
-
-        return $this->response->title(trans('blog::blog.names'))
-            ->view('blog::public.blog.index')
-            ->data(compact('blogs'))
-            ->output();
-    }
-
-    protected function displaybyuser($user_id)
-    {
-        $blogs = $this->repository->scopeQuery(function($query) use ($user_id) {
-            return $query->orderBy('id','DESC')
-                         ->where('user_id', $user_id);
-        })->paginate();
-
-        return $this->response->title(trans('blog::blog.names'))
-            ->view('blog::public.blog.index')
-            ->data(compact('blogs'))
-            ->output();
-    }
-    protected function tagdisplay($tag)
-    {
-
-        $blogs = $this->repository->scopeQuery(function($query) use ($tag) {
-            return $query->orderBy('id','DESC')
-                         ->where('tags', 'like', '%"'.$tag.'"%');
-        })->paginate();
-
-        return $this->response->title(trans('blog::blog.names'))
-            ->view('blog::public.blog.index')
-            ->data(compact('blogs'))
-            ->output();
-        
     }
 
 }

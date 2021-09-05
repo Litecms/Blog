@@ -1,60 +1,59 @@
-Laravel package that provides content blog management facility for lavalite CMS.
+Lavalite package that provides blog management facility for the cms.
 
 ## Installation
 
-Require this package with composer. 
+Begin by installing this package through Composer. Edit your project's `composer.json` file to require `litecms/blog`.
 
-    composer require litecms/blog
+    "litecms/blog": "dev-master"
 
-Laravel 5.5 uses Package Auto-Discovery, so doesn't require you to manually add the ServiceProvider.
+Next, update Composer from the Terminal:
 
+    composer update
 
-## Publishing
+Once this operation completes execute below cammnds in command line to finalize installation.
 
-**Configuration**
+    Litecms\Blog\Providers\BlogServiceProvider::class,
+
+And also add it to alias
+
+    'Blog'  => Litecms\Blog\Facades\Blog::class,
+
+## Publishing files and migraiting database.
+
+**Migration and seeds**
+
+    php artisan migrate
+    php artisan db:seed --class=Litecms\\BlogTableSeeder
+
+**Publishing configuration**
 
     php artisan vendor:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --tag="config"
 
-**Language**
+**Publishing language**
 
     php artisan vendor:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --tag="lang"
 
-**Files**
-
-    php artisan vendor:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --tag="storage"
-
-### Views
-
-Publish views to resources\views\vendor directory
+**Publishing views**
 
     php artisan vendor:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --tag="view"
 
-Publishes admin view to admin theme
-
-    php artisan theme:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --view="admin" --theme="admin"
-
-Publishes public view to public theme
-
-    php artisan theme:publish --provider="Litecms\Blog\Providers\BlogServiceProvider" --view="public" --theme="public"
-    
-## URLs and APIs
 
 ### Web Urls
 
 **Admin**
 
-    http://path-to-route-folder/admin/blogs/{modulename}
+    http://path-to-route-folder/admin/blog/{modulename}
 
 **User**
 
-    http://path-to-route-folder/user/blogs/{modulename}
+    http://path-to-route-folder/user/blog/{modulename}
 
 **Public**
 
     http://path-to-route-folder/blogs
 
 
-#### API endpoints
+### API endpoints
 
 **List**
 
@@ -78,7 +77,7 @@ Publishes public view to public theme
 
 **Public List**
 
-    http://path-to-route-folder/api/blogs/{modulename}s
+    http://path-to-route-folder/api/blog/{modulename}
     METHOD: GET
 
 **Public Single**

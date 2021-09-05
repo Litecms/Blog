@@ -2,7 +2,7 @@
 
 namespace Litecms\Blog\Policies;
 
-use Litepie\User\Contracts\UserPolicy;
+use Litepie\User\Interfaces\UserPolicyInterface;
 use Litecms\Blog\Models\Tag;
 
 class TagPolicy
@@ -11,14 +11,14 @@ class TagPolicy
     /**
      * Determine if the given user can view the tag.
      *
-     * @param UserPolicy $user
+     * @param UserPolicyInterface $authUser
      * @param Tag $tag
      *
      * @return bool
      */
-    public function view(UserPolicy $user, Tag $tag)
+    public function view(UserPolicyInterface $authUser, Tag $tag)
     {
-        if ($user->canDo('blog.tag.view') && $user->isAdmin()) {
+        if ($authUser->canDo('blog.tag.view') && $authUser->isAdmin()) {
             return true;
         }
 
@@ -28,27 +28,26 @@ class TagPolicy
     /**
      * Determine if the given user can create a tag.
      *
-     * @param UserPolicy $user
-     * @param Tag $tag
+     * @param UserPolicyInterface $authUser
      *
      * @return bool
      */
-    public function create(UserPolicy $user)
+    public function create(UserPolicyInterface $authUser)
     {
-        return  $user->canDo('blog.tag.create');
+        return  $authUser->canDo('blog.tag.create');
     }
 
     /**
      * Determine if the given user can update the given tag.
      *
-     * @param UserPolicy $user
+     * @param UserPolicyInterface $authUser
      * @param Tag $tag
      *
      * @return bool
      */
-    public function update(UserPolicy $user, Tag $tag)
+    public function update(UserPolicyInterface $authUser, Tag $tag)
     {
-        if ($user->canDo('blog.tag.edit') && $user->isAdmin()) {
+        if ($authUser->canDo('blog.tag.edit') && $authUser->isAdmin()) {
             return true;
         }
 
@@ -58,12 +57,11 @@ class TagPolicy
     /**
      * Determine if the given user can delete the given tag.
      *
-     * @param UserPolicy $user
-     * @param Tag $tag
+     * @param UserPolicyInterface $authUser
      *
      * @return bool
      */
-    public function destroy(UserPolicy $user, Tag $tag)
+    public function destroy(UserPolicyInterface $authUser, Tag $tag)
     {
         return $tag->user_id == user_id() && $tag->user_type == user_type();
     }
@@ -71,14 +69,13 @@ class TagPolicy
     /**
      * Determine if the given user can verify the given tag.
      *
-     * @param UserPolicy $user
-     * @param Tag $tag
+     * @param UserPolicyInterface $authUser
      *
      * @return bool
      */
-    public function verify(UserPolicy $user, Tag $tag)
+    public function verify(UserPolicyInterface $authUser, Tag $tag)
     {
-        if ($user->canDo('blog.tag.verify')) {
+        if ($authUser->canDo('blog.tag.verify')) {
             return true;
         }
 
@@ -88,14 +85,13 @@ class TagPolicy
     /**
      * Determine if the given user can approve the given tag.
      *
-     * @param UserPolicy $user
-     * @param Tag $tag
+     * @param UserPolicyInterface $authUser
      *
      * @return bool
      */
-    public function approve(UserPolicy $user, Tag $tag)
+    public function approve(UserPolicyInterface $authUser, Tag $tag)
     {
-        if ($user->canDo('blog.tag.approve')) {
+        if ($authUser->canDo('blog.tag.approve')) {
             return true;
         }
 
@@ -105,14 +101,14 @@ class TagPolicy
     /**
      * Determine if the user can perform a given action ve.
      *
-     * @param [type] $user    [description]
+     * @param [type] $authUser    [description]
      * @param [type] $ability [description]
      *
      * @return [type] [description]
      */
-    public function before($user, $ability)
+    public function before($authUser, $ability)
     {
-        if ($user->isSuperuser()) {
+        if ($authUser->isSuperuser()) {
             return true;
         }
     }

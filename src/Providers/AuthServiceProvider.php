@@ -13,14 +13,13 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        // Bind Category policy
-        'Litecms\Blog\Models\Category' => \Litecms\Blog\Policies\CategoryPolicy::class,
-// Bind Blog policy
-        'Litecms\Blog\Models\Blog' => \Litecms\Blog\Policies\BlogPolicy::class,
-// Bind Comment policy
-        'Litecms\Blog\Models\Comment' => \Litecms\Blog\Policies\CommentPolicy::class,
-// Bind Tag policy
-        'Litecms\Blog\Models\Tag' => \Litecms\Blog\Policies\TagPolicy::class,
+        // Bind Blog policy
+        \Litecms\Blog\Repositories\Eloquent\BlogRepository::class 
+        => \Litecms\Blog\Policies\BlogPolicy::class,// Bind Category policy
+        \Litecms\Blog\Repositories\Eloquent\CategoryRepository::class 
+        => \Litecms\Blog\Policies\CategoryPolicy::class,// Bind Tag policy
+        \Litecms\Blog\Repositories\Eloquent\TagRepository::class 
+        => \Litecms\Blog\Policies\TagPolicy::class,
     ];
 
     /**
