@@ -2,17 +2,19 @@
 
 namespace Litecms\Blog;
 
-use User;
-
 class Blog
 {
     /**
      * $blog object.
      */
-    protected $blog;    /**
+    protected $blog;
+
+    /**
      * $category object.
      */
-    protected $category;    /**
+    protected $category;
+
+    /**
      * $tag object.
      */
     protected $tag;
@@ -20,9 +22,13 @@ class Blog
     /**
      * Constructor.
      */
-    public function __construct(\Litecms\Blog\Interfaces\BlogRepositoryInterface $blog,        \Litecms\Blog\Interfaces\CategoryRepositoryInterface $category,        \Litecms\Blog\Interfaces\TagRepositoryInterface $tag)
-    {
-        $this->blog = $blog;        $this->category = $category;        $this->tag = $tag;
+    public function __construct(
+        \Litecms\Blog\Interfaces\BlogRepositoryInterface $blog,
+        \Litecms\Blog\Interfaces\CategoryRepositoryInterface $category,
+        \Litecms\Blog\Interfaces\TagRepositoryInterface $tag) {
+        $this->blog = $blog;
+        $this->category = $category;
+        $this->tag = $tag;
     }
 
     /**
@@ -34,7 +40,7 @@ class Blog
      */
     public function count()
     {
-        return  0;
+        return 0;
     }
 
     /**
@@ -46,8 +52,8 @@ class Blog
      */
     public function blog($slug)
     {
-        return  $this->blog
-            ->findBySlug($slig)
+        return $this->blog
+            ->findBySlug($slug)
             ->toArray();
     }
     public function category()
