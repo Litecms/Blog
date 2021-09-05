@@ -3,7 +3,6 @@
     "description": "Blog package for litecms.",
     "keywords": ["lavalite", "Blog"],
     "license": "MIT",
-    "type": "lavalite-package",
     "authors": [
         {
             "name": "Lavalite",

@@ -2,9 +2,9 @@
 
 namespace Litecms\Blog\Http\Requests;
 
-use App\Http\Requests\Request as FormRequest;
+use Litepie\Http\Request\AbstractRequest;
 
-class CategoryRequest extends FormRequest
+class CategoryRequest extends AbstractRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -17,12 +17,12 @@ class CategoryRequest extends FormRequest
 
         if (is_null($this->model)) {
             // Determine if the user is authorized to access category module,
-            return $this->canAccess();
+            return $this->user()->can('view', app(config('litecms.blog.category.model.repository')));
         }
 
         if ($this->isWorkflow()) {
             // Determine if the user is authorized to change status of an entry,
-            return $this->can($this->getStatus());
+            return $this->can($this->getTransition());
         }
 
         if ($this->isCreate() || $this->isStore()) {
@@ -72,13 +72,4 @@ class CategoryRequest extends FormRequest
         ];
     }
 
-    /**
-     * Check whether the user can access the module.
-     *
-     * @return bool
-     **/
-    protected function canAccess()
-    {
-        return user()->canDo('blog.category.view');
-    }
 }

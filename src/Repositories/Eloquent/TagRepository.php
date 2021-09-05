@@ -3,16 +3,16 @@
 namespace Litecms\Blog\Repositories\Eloquent;
 
 use Litecms\Blog\Interfaces\TagRepositoryInterface;
-use Litepie\Repository\Eloquent\BaseRepository;
+use Litepie\Repository\BaseRepository;
+use Litecms\Blog\Repositories\Eloquent\Presenters\TagItemPresenter;
+
 
 class TagRepository extends BaseRepository implements TagRepositoryInterface
 {
 
-
     public function boot()
     {
         $this->fieldSearchable = config('litecms.blog.tag.model.search');
-
     }
 
     /**
@@ -25,8 +25,17 @@ class TagRepository extends BaseRepository implements TagRepositoryInterface
         return config('litecms.blog.tag.model.model');
     }
 
-    public function selectTags()
+    /**
+     * Returns the default presenter if none is availabale.
+     *
+     * @return void
+     */
+    public function presenter()
     {
-        return $this->pluck('name','slug');
+        return TagItemPresenter::class;
+    }
+    public function tags()
+    {
+        return $this->model->orderBy('name', 'ASC')->get();
     }
 }

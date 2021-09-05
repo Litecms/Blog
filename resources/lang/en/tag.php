@@ -14,25 +14,41 @@ return [
     /**
      * Singlular and plural name of the module
      */
-    'name'          => 'Tag',
-    'names'         => 'Tags',
-    
+    'name' => 'Tag',
+    'names' => 'Tags',
+    'icon' => 'las la-list',
+
     /**
      * Singlular and plural name of the module
      */
-    'title'         => [
-        'main'  => 'Tags',
-        'sub'   => 'Tags',
-        'list'  => 'List of tags',
-        'edit'  => 'Edit tag',
-        'create'    => 'Create new tag'
+    'title' => [
+        'main' => 'Tags',
+        'sub' => 'Tags'
+    ],
+
+    /**
+     * Singlular and plural name of the module
+     */
+    'groups'         => [
+        'main' => 'Main',
+        'images' => 'Images',
+        'details' => 'Details',
+        'settings' => 'Settings'
+    ],
+
+    /**
+     * Form sub section name for the module.
+     */
+    'sections' => [
+        'main' => 'Main',
+        'details' => 'Details',
     ],
 
     /**
      * Options for select/radio/check.
      */
     'options'       => [
-            'published'           => ['yes' => 'yes','no' => 'no'],
+        'status'              => ['show','hide'],
     ],
 
     /**
@@ -41,9 +57,10 @@ return [
     'placeholder'   => [
         'id'                         => 'Please enter id',
         'name'                       => 'Please enter name',
-        'frequency'                  => 'Please enter frequency',
         'slug'                       => 'Please enter slug',
-        'published'                  => 'Please select published',
+        'status'                     => 'Please select status',
+        'user_id'                    => 'Please enter user id',
+        'user_type'                  => 'Please enter user type',
         'created_at'                 => 'Please select created at',
         'updated_at'                 => 'Please select updated at',
         'deleted_at'                 => 'Please select deleted at',
@@ -55,36 +72,12 @@ return [
     'label'         => [
         'id'                         => 'Id',
         'name'                       => 'Name',
-        'frequency'                  => 'Frequency',
         'slug'                       => 'Slug',
-        'published'                  => 'Published',
+        'status'                     => 'Status',
+        'user_id'                    => 'User id',
+        'user_type'                  => 'User type',
         'created_at'                 => 'Created at',
         'updated_at'                 => 'Updated at',
         'deleted_at'                 => 'Deleted at',
-    ],
-
-    /**
-     * Columns array for show hide checkbox.
-     */
-    'cloumns'         => [
-        'id'                         => ['name' => 'Id', 'data-column' => 1, 'checked'],
-        'name'                       => ['name' => 'Name', 'data-column' => 2, 'checked'],
-        'frequency'                  => ['name' => 'Frequency', 'data-column' => 3, 'checked'],
-        'published'                  => ['name' => 'Published', 'data-column' => 4, 'checked'],
-        'created_at'                 => ['name' => 'Created at', 'data-column' => 5, 'checked'],
-    ],
-
-    /**
-     * Tab labels
-     */
-    'tab'           => [
-        'name'  => 'Tags',
-    ],
-
-    /**
-     * Texts  for the module
-     */
-    'text'          => [
-        'preview' => 'Click on the below list for preview',
     ],
 ];

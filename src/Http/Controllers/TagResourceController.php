@@ -2,11 +2,14 @@
 
 namespace Litecms\Blog\Http\Controllers;
 
-use App\Http\Controllers\ResourceController as BaseController;
-use Form;
+use Exception;
+use Litepie\Http\Controllers\ResourceController as BaseController;
+use Litepie\Repository\Filter\RequestFilter;
+use Litecms\Blog\Forms\Tag as TagForm;
 use Litecms\Blog\Http\Requests\TagRequest;
 use Litecms\Blog\Interfaces\TagRepositoryInterface;
-use Litecms\Blog\Models\Tag;
+use Litecms\Blog\Repositories\Eloquent\Filters\TagResourceFilter;
+use Litecms\Blog\Repositories\Eloquent\Presenters\TagListPresenter;
 
 /**
  * Resource controller class for tag.
@@ -17,17 +20,15 @@ class TagResourceController extends BaseController
     /**
      * Initialize tag resource controller.
      *
-     * @param type TagRepositoryInterface $tag
      *
      * @return null
      */
     public function __construct(TagRepositoryInterface $tag)
     {
         parent::__construct();
+        $this->form = TagForm::setAttributes()->toArray();
+        $this->modules = $this->modules(config('litecms.blog.modules'), 'blog', guard_url('blog'));
         $this->repository = $tag;
-        $this->repository
-            ->pushCriteria(\Litepie\Repository\Criteria\RequestCriteria::class)
-            ->pushCriteria(\Litecms\Blog\Repositories\Criteria\TagResourceCriteria::class);
     }
 
     /**
@@ -37,20 +38,23 @@ class TagResourceController extends BaseController
      */
     public function index(TagRequest $request)
     {
-        $view = $this->response->theme->listView();
 
-        if ($this->response->typeIs('json')) {
-            $function = camel_case('get-' . $view);
-            return $this->repository
-                ->setPresenter(\Litecms\Blog\Repositories\Presenter\TagPresenter::class)
-                ->$function();
-        }
+        $pageLimit = $request->input('pageLimit', config('database.pagination.limit'));
+        $data = $this->repository
+            ->pushFilter(RequestFilter::class)
+            ->pushFilter(TagResourceFilter::class)
+            ->setPresenter(TagListPresenter::class)
+            ->simplePaginate($pageLimit)
+            // ->withQueryString()
+            ->toArray();
 
-        $tags = $this->repository->paginate();
+        extract($data);
+        $form = $this->form;
+        $modules = $this->modules;
 
-        return $this->response->title(trans('blog::tag.names'))
-            ->view('blog::tag.index', true)
-            ->data(compact('tags'))
+        return $this->response->setMetaTitle(trans('blog::tag.names'))
+            ->view('blog::tag.index')
+            ->data(compact('data', 'meta', 'links', 'modules', 'form'))
             ->output();
     }
 
@@ -62,18 +66,15 @@ class TagResourceController extends BaseController
      *
      * @return Response
      */
-    public function show(TagRequest $request, Tag $tag)
+    public function show(TagRequest $request, TagRepositoryInterface $repository)
     {
-
-        if ($tag->exists) {
-            $view = 'blog::tag.show';
-        } else {
-            $view = 'blog::tag.new';
-        }
-
-        return $this->response->title(trans('app.view') . ' ' . trans('blog::tag.name'))
-            ->data(compact('tag'))
-            ->view($view, true)
+        $form = $this->form;
+        $modules = $this->modules;
+        $data = $repository->toArray();
+        return $this->response
+            ->setMetaTitle(trans('app.view') . ' ' . trans('blog::tag.name'))
+            ->data(compact('data', 'form', 'modules', 'form'))
+            ->view('blog::tag.show')
             ->output();
     }
 
@@ -81,16 +82,17 @@ class TagResourceController extends BaseController
      * Show the form for creating a new tag.
      *
      * @param Request $request
-     *
+     *x
      * @return Response
      */
-    public function create(TagRequest $request)
+    public function create(TagRequest $request, TagRepositoryInterface $repository)
     {
-
-        $tag = $this->repository->newInstance([]);
-        return $this->response->title(trans('app.new') . ' ' . trans('blog::tag.name')) 
-            ->view('blog::tag.create', true) 
-            ->data(compact('tag'))
+        $form = $this->form;
+        $modules = $this->modules;
+        $data = $repository->toArray();
+        return $this->response->setMetaTitle(trans('app.new') . ' ' . trans('blog::tag.name'))
+            ->view('blog::tag.create')
+            ->data(compact('data', 'form', 'modules'))
             ->output();
     }
 
@@ -101,18 +103,20 @@ class TagResourceController extends BaseController
      *
      * @return Response
      */
-    public function store(TagRequest $request)
+    public function store(TagRequest $request, TagRepositoryInterface $repository)
     {
         try {
-            $attributes              = $request->all();
-            $attributes['user_id']   = user_id();
+            $attributes = $request->all();
+            $attributes['user_id'] = user_id();
             $attributes['user_type'] = user_type();
-            $tag                 = $this->repository->create($attributes);
+            $repository->create($attributes);
+            $data = $repository->toArray();
 
             return $this->response->message(trans('messages.success.created', ['Module' => trans('blog::tag.name')]))
                 ->code(204)
+                ->data(compact('data'))
                 ->status('success')
-                ->url(guard_url('blog/tag/' . $tag->getRouteKey()))
+                ->url(guard_url('blog/tag/' . $data['id']))
                 ->redirect();
         } catch (Exception $e) {
             return $this->response->message($e->getMessage())
@@ -132,11 +136,15 @@ class TagResourceController extends BaseController
      *
      * @return Response
      */
-    public function edit(TagRequest $request, Tag $tag)
+    public function edit(TagRequest $request, TagRepositoryInterface $repository)
     {
-        return $this->response->title(trans('app.edit') . ' ' . trans('blog::tag.name'))
-            ->view('blog::tag.edit', true)
-            ->data(compact('tag'))
+        $form = $this->form;
+        $modules = $this->modules;
+        $data = $repository->toArray();
+
+        return $this->response->setMetaTitle(trans('app.edit') . ' ' . trans('blog::tag.name'))
+            ->view('blog::tag.edit')
+            ->data(compact('data', 'form', 'modules'))
             ->output();
     }
 
@@ -148,22 +156,24 @@ class TagResourceController extends BaseController
      *
      * @return Response
      */
-    public function update(TagRequest $request, Tag $tag)
+    public function update(TagRequest $request, TagRepositoryInterface $repository)
     {
         try {
             $attributes = $request->all();
+            $repository->update($attributes);
+            $data = $repository->toArray();
 
-            $tag->update($attributes);
             return $this->response->message(trans('messages.success.updated', ['Module' => trans('blog::tag.name')]))
                 ->code(204)
                 ->status('success')
-                ->url(guard_url('blog/tag/' . $tag->getRouteKey()))
+                ->data(compact('data'))
+                ->url(guard_url('blog/tag/' . $data['id']))
                 ->redirect();
         } catch (Exception $e) {
             return $this->response->message($e->getMessage())
                 ->code(400)
                 ->status('error')
-                ->url(guard_url('blog/tag/' . $tag->getRouteKey()))
+                ->url(guard_url('blog/tag/' .  $repository->getRouteKey()))
                 ->redirect();
         }
 
@@ -176,14 +186,16 @@ class TagResourceController extends BaseController
      *
      * @return Response
      */
-    public function destroy(TagRequest $request, Tag $tag)
+    public function destroy(TagRequest $request, TagRepositoryInterface $repository)
     {
         try {
+            $repository->delete();
+            $data = $repository->toArray();
 
-            $tag->delete();
             return $this->response->message(trans('messages.success.deleted', ['Module' => trans('blog::tag.name')]))
                 ->code(202)
                 ->status('success')
+                ->data(compact('data'))
                 ->url(guard_url('blog/tag/0'))
                 ->redirect();
 
@@ -192,75 +204,9 @@ class TagResourceController extends BaseController
             return $this->response->message($e->getMessage())
                 ->code(400)
                 ->status('error')
-                ->url(guard_url('blog/tag/' . $tag->getRouteKey()))
+                ->url(guard_url('blog/tag/' .  $repository->getRouteKey()))
                 ->redirect();
         }
 
     }
-
-    /**
-     * Remove multiple tag.
-     *
-     * @param Model   $tag
-     *
-     * @return Response
-     */
-    public function delete(TagRequest $request, $type)
-    {
-        try {
-            $ids = hashids_decode($request->input('ids'));
-
-            if ($type == 'purge') {
-                $this->repository->purge($ids);
-            } else {
-                $this->repository->delete($ids);
-            }
-
-            return $this->response->message(trans('messages.success.deleted', ['Module' => trans('blog::tag.name')]))
-                ->status("success")
-                ->code(202)
-                ->url(guard_url('blog/tag'))
-                ->redirect();
-
-        } catch (Exception $e) {
-
-            return $this->response->message($e->getMessage())
-                ->status("error")
-                ->code(400)
-                ->url(guard_url('/blog/tag'))
-                ->redirect();
-        }
-
-    }
-
-    /**
-     * Restore deleted tags.
-     *
-     * @param Model   $tag
-     *
-     * @return Response
-     */
-    public function restore(TagRequest $request)
-    {
-        try {
-            $ids = hashids_decode($request->input('ids'));
-            $this->repository->restore($ids);
-
-            return $this->response->message(trans('messages.success.restore', ['Module' => trans('blog::tag.name')]))
-                ->status("success")
-                ->code(202)
-                ->url(guard_url('/blog/tag'))
-                ->redirect();
-
-        } catch (Exception $e) {
-
-            return $this->response->message($e->getMessage())
-                ->status("error")
-                ->code(400)
-                ->url(guard_url('/blog/tag/'))
-                ->redirect();
-        }
-
-    }
-
 }
