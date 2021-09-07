@@ -23,7 +23,9 @@ And also add it to alias
 **Migration and seeds**
 
     php artisan migrate
-    php artisan db:seed --class=Litecms\\BlogTableSeeder
+    php artisan db:seed --class=Litecms\\Blog\\Seeds\\BlogTableSeeder
+    php artisan db:seed --class=Litecms\\Blog\\Seeds\\TagTableSeeder
+    php artisan db:seed --class=Litecms\\Blog\\Seeds\\CategoryTableSeeder
 
 **Publishing configuration**
 

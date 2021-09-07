@@ -1,11 +1,11 @@
 <?php
 
-namespace Litecms\Blog;
+namespace Litecms\Blog\Seeds;
 
 use DB;
 use Illuminate\Database\Seeder;
 
-class BlogCategoryTableSeeder extends Seeder
+class CategoryTableSeeder extends Seeder
 {
     public function run()
     {
