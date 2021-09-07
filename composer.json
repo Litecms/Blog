@@ -6,6 +6,7 @@
     "Blog"
   ],
   "license": "MIT",
+  "type": "lavalite-package",
   "authors": [
     {
       "name": "Lavalite",
