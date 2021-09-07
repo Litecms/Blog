@@ -19,7 +19,7 @@
   "autoload": {
     "psr-4": {
       "Litecms\\Blog\\": "src",
-      "Litecms\\Blog\\Seeds": "database/seeds"
+      "Litecms\\Blog\\Seeds\\": "database/seeds"
     }
   },
   "extra": {
