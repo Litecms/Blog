@@ -58,6 +58,140 @@ class BlogTableSeeder extends Seeder
             
         ]);
 
+        DB::table('blog_categories')->insert([
+            [
+                'id'               => 1,
+                'name'             => 'Arts and Entertainment',
+                'slug'             => NULL,
+                'status'           => 'show',
+                'user_id'          => 1,
+                'user_type'        => 'App\Models\User',
+            ],
+            [
+                'id'               => 2,
+                'name'             => 'Branding',
+                'slug'             => NULL,
+                'status'           => 'show',
+                'user_id'          => 1,
+                'user_type'        => 'App\Models\User',
+            ],
+            [
+                'id'               => 3,
+                'name'             => 'Design Tutorials',
+                'slug'             => NULL,
+                'status'           => 'show',
+                'user_id'          => 1,
+                'user_type'        => 'App\Models\User',
+            ],
+            [
+                'id'               => 4,
+                'name'             => 'Designing',
+                'slug'             => NULL,
+                'status'           => 'show',
+                'user_id'          => 1,
+                'user_type'        => 'App\Models\User',
+            ],
+            [
+                'id'               => 5,
+                'name'             => 'Feature',
+                'slug'             => NULL,
+                'status'           => 'show',
+                'user_id'          => 1,
+                'user_type'        => 'App\Models\User',
+            ],
+        ]);
+        
+        DB::table('blog_tags')->insert([
+            [
+                'id'               => 1,
+                'name'             => 'Advertisements',
+                'slug'             => NULL,
+                'status'           => 'show',
+                'user_id'          => 1,
+                'user_type'        => 'App\Models\User',
+            ],
+            [
+                'id'               => 2,
+                'name'             => 'Artistry',
+                'slug'             => NULL,
+                'status'           => 'show',
+                'user_id'          => 1,
+                'user_type'        => 'App\Models\User',
+            ],
+            [
+                'id'               => 3,
+                'name'             => 'Blog',
+                'slug'             => NULL,
+                'status'           => 'show',
+                'user_id'          => 1,
+                'user_type'        => 'App\Models\User',
+            ],
+            [
+                'id'               => 4,
+                'name'             => 'Conceptual',
+                'slug'             => NULL,
+                'status'           => 'show',
+                'user_id'          => 1,
+                'user_type'        => 'App\Models\User',
+            ],
+            [
+                'id'               => 5,
+                'name'             => 'Design',
+                'slug'             => NULL,
+                'status'           => 'show',
+                'user_id'          => 1,
+                'user_type'        => 'App\Models\User',
+            ],
+            [
+                'id'               => 6,
+                'name'             => 'Fashion',
+                'slug'             => NULL,
+                'status'           => 'show',
+                'user_id'          => 1,
+                'user_type'        => 'App\Models\User',
+            ],
+            [
+                'id'               => 7,
+                'name'             => 'Inscription',
+                'slug'             => NULL,
+                'status'           => 'show',
+                'user_id'          => 1,
+                'user_type'        => 'App\Models\User',
+            ],
+            [
+                'id'               => 8,
+                'name'             => 'Smart',
+                'slug'             => NULL,
+                'status'           => 'show',
+                'user_id'          => 1,
+                'user_type'        => 'App\Models\User',
+            ],
+            [
+                'id'               => 9,
+                'name'             => 'Quotes',
+                'slug'             => NULL,
+                'status'           => 'show',
+                'user_id'          => 1,
+                'user_type'        => 'App\Models\User',
+            ],
+            [
+                'id'               => 10,
+                'name'             => 'Unique',
+                'slug'             => NULL,
+                'status'           => 'show',
+                'user_id'          => 1,
+                'user_type'        => 'App\Models\User',
+            ],
+            [
+                'id'               => 11,
+                'name'             => 'Concepts',
+                'slug'             => NULL,
+                'status'           => 'show',
+                'user_id'          => 1,
+                'user_type'        => 'App\Models\User',
+            ],
+        ]);
+
         DB::table('permissions')->insert([
             [
                 'slug'      => 'blog.blog.view',
