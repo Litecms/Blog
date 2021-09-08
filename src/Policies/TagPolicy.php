@@ -18,7 +18,7 @@ class TagPolicy
      */
     public function view(UserPolicyInterface $authUser, Tag $tag)
     {
-        if ($authUser->canDo('blog.tag.view') && $authUser->isAdmin()) {
+        if ($authUser->canDo('blog.blog.view') && $authUser->isAdmin()) {
             return true;
         }
 
@@ -34,7 +34,7 @@ class TagPolicy
      */
     public function create(UserPolicyInterface $authUser)
     {
-        return  $authUser->canDo('blog.tag.create');
+        return  $authUser->canDo('blog.blog.create');
     }
 
     /**
@@ -47,7 +47,7 @@ class TagPolicy
      */
     public function update(UserPolicyInterface $authUser, Tag $tag)
     {
-        if ($authUser->canDo('blog.tag.edit') && $authUser->isAdmin()) {
+        if ($authUser->canDo('blog.blog.edit') && $authUser->isAdmin()) {
             return true;
         }
 
@@ -75,7 +75,7 @@ class TagPolicy
      */
     public function verify(UserPolicyInterface $authUser, Tag $tag)
     {
-        if ($authUser->canDo('blog.tag.verify')) {
+        if ($authUser->canDo('blog.blog.verify')) {
             return true;
         }
 
@@ -91,7 +91,7 @@ class TagPolicy
      */
     public function approve(UserPolicyInterface $authUser, Tag $tag)
     {
-        if ($authUser->canDo('blog.tag.approve')) {
+        if ($authUser->canDo('blog.blog.approve')) {
             return true;
         }
 

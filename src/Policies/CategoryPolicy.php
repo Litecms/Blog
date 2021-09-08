@@ -18,7 +18,7 @@ class CategoryPolicy
      */
     public function view(UserPolicyInterface $authUser, Category $category)
     {
-        if ($authUser->canDo('blog.category.view') && $authUser->isAdmin()) {
+        if ($authUser->canDo('blog.blog.view') && $authUser->isAdmin()) {
             return true;
         }
 
@@ -34,7 +34,7 @@ class CategoryPolicy
      */
     public function create(UserPolicyInterface $authUser)
     {
-        return  $authUser->canDo('blog.category.create');
+        return  $authUser->canDo('blog.blog.create');
     }
 
     /**
@@ -47,7 +47,7 @@ class CategoryPolicy
      */
     public function update(UserPolicyInterface $authUser, Category $category)
     {
-        if ($authUser->canDo('blog.category.edit') && $authUser->isAdmin()) {
+        if ($authUser->canDo('blog.blog.edit') && $authUser->isAdmin()) {
             return true;
         }
 
@@ -75,7 +75,7 @@ class CategoryPolicy
      */
     public function verify(UserPolicyInterface $authUser, Category $category)
     {
-        if ($authUser->canDo('blog.category.verify')) {
+        if ($authUser->canDo('blog.blog.verify')) {
             return true;
         }
 
@@ -91,7 +91,7 @@ class CategoryPolicy
      */
     public function approve(UserPolicyInterface $authUser, Category $category)
     {
-        if ($authUser->canDo('blog.category.approve')) {
+        if ($authUser->canDo('blog.blog.approve')) {
             return true;
         }
 
