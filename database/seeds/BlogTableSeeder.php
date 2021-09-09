@@ -221,26 +221,13 @@ class BlogTableSeeder extends Seeder
                 'url'         => 'admin/blog/blog',
                 'name'        => 'Blog',
                 'description' => null,
-                'icon'        => 'las la-blog',
+                'icon'        => 'las la-book-open',
                 'target'      => null,
                 'order'       => 190,
                 'status'      => 1,
             ],
-
             [
-                'parent_id'   => 2,
-                'key'         => null,
-                'url'         => 'user/blog/blog',
-                'name'        => 'Blog',
-                'description' => null,
-                'icon'        => 'icon-book-open',
-                'target'      => null,
-                'order'       => 190,
-                'status'      => 1,
-            ],
-
-            [
-                'parent_id'   => 3,
+                'parent_id'   => 4,
                 'key'         => null,
                 'url'         => 'blog',
                 'name'        => 'Blog',
