@@ -18,10 +18,6 @@ class BlogItemPresenter extends Presenter
             return $this->title;
         }
 
-        if ($this->name != '') {
-            return $this->name;
-        }
-
         return 'None';
     }
 
@@ -37,10 +33,9 @@ class BlogItemPresenter extends Presenter
             'tags' => $this->tags,
             'viewcount' => $this->viewcount,
             'slug' => $this->slug,
-            'published' => $this->published,
-            'published_at' => $this->published_at,
-            'user_id' => @$this->users->name,
-            'user_type' => $this->user_type,
+            'status' => $this->status,
+            'category' => @$this->category->name,
+            'author' => $this->author->name,
             'created_at' => !is_null($this->created_at) ? $this->created_at->format('Y-m-d H:i:s') : null,
             'updated_at' => !is_null($this->updated_at) ? $this->updated_at->format('Y-m-d H:i:s') : null,
             'meta' => [

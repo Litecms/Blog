@@ -50,7 +50,7 @@ class Blog extends FormInterpreter
                 "section" => "first",
                 "col" => "4",
                 "roles" => [],
-            ]
+            ],
         ];
         self::$groups = [
             'main' => trans('blog::blog.groups.main'),
@@ -85,7 +85,7 @@ class Blog extends FormInterpreter
             ],
         ];
         self::$fields = [
-                'category_id' => [
+            'category_id' => [
                 "element" => 'select',
                 "type" => 'select',
                 "label" => trans('blog::blog.label.category_id'),
@@ -93,6 +93,12 @@ class Blog extends FormInterpreter
                 "rules" => '',
                 "group" => "main",
                 "section" => "first",
+                "options" => function () {
+                    return [
+                        ['text' => 'Name 1', 'value' => '1'],
+                        ['text' => 'Name 2', 'value' => '2'],
+                    ];
+                },
                 "col" => "6",
                 "append" => null,
                 "prepend" => null,
@@ -204,7 +210,7 @@ class Blog extends FormInterpreter
                 "type" => 'select',
                 "label" => trans('blog::blog.label.published'),
                 "placeholder" => trans('blog::blog.placeholder.published'),
-                'options'   => trans('blog::blog.options.published'),
+                'options' => trans('blog::blog.options.published'),
                 "rules" => '',
                 "group" => "main",
                 "section" => "first",

@@ -3,6 +3,7 @@
 namespace Litecms\Blog\Repositories\Eloquent\Presenters;
 
 use Litepie\Repository\Presenter\Presenter;
+use Illuminate\Support\Str;
 
 class BlogListPresenter extends Presenter
 {
@@ -18,20 +19,20 @@ class BlogListPresenter extends Presenter
             return $this->title;
         }
 
-        if ($this->name != '') {
-            return $this->name;
-        }
-
         return 'None';
-     }
+    }
 
     public function toArray()
     {
         return [
             'id' => $this->getRouteKey(),
             'title' => $this->title(),
-            'description' => $this->description,
+            'description' => $this->formatDescription($this->description),
+            'image' => url($this->defaultImage('images', 'md')),
+            'slug' => $this->slug,
             'status' => $this->status,
+            'category' => @$this->category->name,
+            'user' => @$this->author->name,
             'created_at' => !is_null($this->created_at) ? $this->created_at->format('Y-m-d H:i:s') : null,
             'updated_at' => !is_null($this->updated_at) ? $this->updated_at->format('Y-m-d H:i:s') : null,
             'meta' => [
@@ -39,6 +40,12 @@ class BlogListPresenter extends Presenter
                 'link' => $this->itemLink(),
             ],
         ];
+    }
+
+    public function formatDescription($description)
+    {
+        $description = strip_tags($description);
+        return Str::limit($description, 90);
     }
 
 }
