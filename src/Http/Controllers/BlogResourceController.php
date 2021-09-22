@@ -110,7 +110,6 @@ class BlogResourceController extends BaseController
             $attributes = $request->all();
             $attributes['user_id'] = user_id();
             $attributes['user_type'] = user_type();
-            $attributes['slug'] = str_slug('title');
             $repository->create($attributes);
             $data = $repository->toArray();
 

@@ -29,9 +29,10 @@ class CategoryListPresenter extends Presenter
     {
         return [
             'id' => $this->getRouteKey(),
-            'title' => $this->title(),
-            'description' => $this->description,
+            'name' => $this->title(),
+            'slug' => $this->slug,
             'status' => $this->status,
+            'count' => $this->blogs->count(),
             'created_at' => !is_null($this->created_at) ? $this->created_at->format('Y-m-d H:i:s') : null,
             'updated_at' => !is_null($this->updated_at) ? $this->updated_at->format('Y-m-d H:i:s') : null,
             'meta' => [

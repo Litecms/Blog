@@ -31,33 +31,14 @@ class Blog
         $this->tag = $tag;
     }
 
-    /**
-     * Returns count of blog.
-     *
-     * @param array $filter
-     *
-     * @return int
-     */
-    public function count()
-    {
-        return 0;
-    }
-
-    /**
-     * Find blog by slug.
-     *
-     * @param array $filter
-     *
-     * @return int
-     */
-    public function blog($slug)
+    // public function category()
+    // {
+    //     return $this->category->options();
+    // }
+    public function recent($count = 5)
     {
         return $this->blog
-            ->findBySlug($slug)
+            ->recent($count)
             ->toArray();
-    }
-    public function category()
-    {
-        return $this->category->category();
     }
 }

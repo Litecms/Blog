@@ -3,9 +3,9 @@
 namespace Litecms\Blog\Repositories\Eloquent;
 
 use Litecms\Blog\Interfaces\CategoryRepositoryInterface;
-use Litepie\Repository\BaseRepository;
 use Litecms\Blog\Repositories\Eloquent\Presenters\CategoryItemPresenter;
-
+use Litecms\Blog\Repositories\Eloquent\Presenters\CategoryListPresenter;
+use Litepie\Repository\BaseRepository;
 
 class CategoryRepository extends BaseRepository implements CategoryRepositoryInterface
 {
@@ -34,12 +34,13 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     {
         return CategoryItemPresenter::class;
     }
+
     public function categories()
     {
-        return $this->model->orderBy('name', 'ASC')->get();
+        return $this
+            ->setPresenter(CategoryListPresenter::class)
+            ->orderBy('name', 'ASC')
+            ->get();
     }
-    public function category()
-    {
-        return $this->model->get()->pluck('name','id');
-    }
+
 }
