@@ -31,10 +31,11 @@ class Blog
         $this->tag = $tag;
     }
 
-    // public function category()
-    // {
-    //     return $this->category->options();
-    // }
+    public function options($module, $value='id', $text = 'name')
+    {
+        return $this->$module->options($value, $text);
+    }
+    
     public function recent($count = 5)
     {
         return $this->blog

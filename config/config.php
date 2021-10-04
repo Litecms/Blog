@@ -53,6 +53,7 @@ return [
                 'file'      => 'array',
                  */
                 'images' => 'array',
+                'tags' => 'array',
             ],
 
             'revision' => [],
