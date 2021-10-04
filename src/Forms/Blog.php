@@ -42,15 +42,54 @@ class Blog extends FormInterpreter
         ];
         self::$search = [
             'name' => [
+                "element" => 'input',
                 "type" => 'text',
-                "label" => trans('blog::blog.label.name'),
-                "placeholder" => trans('blog::blog.placeholder.name'),
-                "rules" => '',
-                "group" => "main",
-                "section" => "first",
-                "col" => "4",
-                "roles" => [],
+                "label" => trans('blog::blog.label.title'),
+                "placeholder" => trans('blog::blog.label.title'),
+                "col" => "12",
             ],
+
+            'category_id[]' => [
+                "element" => 'select',
+                "type" => 'text',
+                "options" => function () {
+                    return \Blog::options('category');
+                },
+                "label" => trans('blog::blog.label.title'),
+                "placeholder" => trans('blog::blog.label.category_id'),
+                "col" => "12",
+            ],
+
+            'tags' => [
+                "element" => 'tags',
+                "type" => 'text',
+                "options" => function () {
+                    return \Blog::options('category');
+                },
+                "label" => trans('blog::blog.label.title'),
+                "placeholder" => trans('blog::blog.label.tags'),
+                "col" => "12",
+            ],
+            'count[min]' => [
+                "element" => 'text',
+                "type" => 'numeric',
+                "label" => trans('blog::blog.label.title'),
+                "placeholder" => trans('blog::blog.label.viewcount'),
+                "col" => "6",
+            ],
+            'count[max]' => [
+                "element" => 'text',
+                "type" => 'numeric',
+                "label" => trans('blog::blog.label.title'),
+                "placeholder" => trans('blog::blog.label.viewcount'),
+                "col" => "6",
+            ],
+        ];
+        self::$orderBy = [
+            'created_at' => trans('blog::blog.label.created_at'),
+            'name' => trans('blog::blog.label.title'),
+            'viewcount' => trans('blog::blog.label.viewcount'),
+            'status' => trans('blog::blog.label.status'),
         ];
         self::$groups = [
             'main' => trans('blog::blog.groups.main'),
@@ -85,21 +124,15 @@ class Blog extends FormInterpreter
             ],
         ];
         self::$fields = [
-            'category_id' => [
-                "element" => 'select',
-                "type" => 'select',
-                "label" => trans('blog::blog.label.category_id'),
-                "placeholder" => trans('blog::blog.placeholder.category_id'),
+            'title' => [
+                "element" => 'text',
+                "type" => 'text',
+                "label" => trans('blog::blog.label.title'),
+                "placeholder" => trans('blog::blog.placeholder.title'),
                 "rules" => '',
                 "group" => "main",
                 "section" => "first",
-                "options" => function () {
-                    return [
-                        ['text' => 'Name 1', 'value' => '1'],
-                        ['text' => 'Name 2', 'value' => '2'],
-                    ];
-                },
-                "col" => "6",
+                "col" => "12",
                 "append" => null,
                 "prepend" => null,
                 "roles" => [],
@@ -110,15 +143,18 @@ class Blog extends FormInterpreter
 
                 ],
             ],
-            'title' => [
-                "element" => 'text',
-                "type" => 'text',
-                "label" => trans('blog::blog.label.title'),
-                "placeholder" => trans('blog::blog.placeholder.title'),
+            'category_id' => [
+                "element" => 'select',
+                "type" => 'select',
+                "label" => trans('blog::blog.label.category_id'),
+                "placeholder" => trans('blog::blog.placeholder.category_id'),
                 "rules" => '',
                 "group" => "main",
                 "section" => "first",
-                "col" => "6",
+                "options" => function () {
+                    return \Blog::options('category');
+                },
+                "col" => "12",
                 "append" => null,
                 "prepend" => null,
                 "roles" => [],
@@ -135,6 +171,7 @@ class Blog extends FormInterpreter
                 "label" => trans('blog::blog.label.description'),
                 "placeholder" => trans('blog::blog.placeholder.description'),
                 "rules" => '',
+                "class" => 'form-control html-editor',
                 "group" => "main",
                 "section" => "first",
                 "col" => "12",
@@ -154,7 +191,7 @@ class Blog extends FormInterpreter
                 "label" => trans('blog::blog.label.images'),
                 "placeholder" => trans('blog::blog.placeholder.images'),
                 "rules" => '',
-                "group" => "main",
+                "group" => "images",
                 "section" => "first",
                 "col" => "12",
                 "append" => null,
@@ -168,14 +205,20 @@ class Blog extends FormInterpreter
                 ],
             ],
             'tags' => [
-                "element" => 'text',
+                "element" => 'tags',
                 "type" => 'text',
+                "name" => 'tags[]',
                 "label" => trans('blog::blog.label.tags'),
                 "placeholder" => trans('blog::blog.placeholder.tags'),
                 "rules" => '',
                 "group" => "main",
+                "maxItems" => 8,
+                "multiple" => "multiple",
                 "section" => "first",
-                "col" => "6",
+                "col" => "12",
+                "options" => function () {
+                    return \Blog::options('tag', 'slug', 'name');
+                },
                 "append" => null,
                 "prepend" => null,
                 "roles" => [],
@@ -183,65 +226,6 @@ class Blog extends FormInterpreter
                     'wrapper' => [],
                     "label" => [],
                     "element" => [],
-
-                ],
-            ],
-            'viewcount' => [
-                "element" => 'numeric',
-                "type" => 'numeric',
-                "label" => trans('blog::blog.label.viewcount'),
-                "placeholder" => trans('blog::blog.placeholder.viewcount'),
-                "rules" => '',
-                "group" => "main",
-                "section" => "first",
-                "col" => "6",
-                "append" => null,
-                "prepend" => null,
-                "roles" => [],
-                "attributes" => [
-                    'wrapper' => [],
-                    "label" => [],
-                    "element" => [],
-
-                ],
-            ],
-            'published' => [
-                "element" => 'select',
-                "type" => 'select',
-                "label" => trans('blog::blog.label.published'),
-                "placeholder" => trans('blog::blog.placeholder.published'),
-                'options' => trans('blog::blog.options.published'),
-                "rules" => '',
-                "group" => "main",
-                "section" => "first",
-                "col" => "6",
-                "append" => null,
-                "prepend" => null,
-                "roles" => [],
-                "attributes" => [
-                    'wrapper' => [],
-                    "label" => [],
-                    "element" => [],
-
-                ],
-            ],
-            'published_at' => [
-                "element" => 'text',
-                "type" => 'date',
-                "label" => trans('blog::blog.label.published_at'),
-                "placeholder" => trans('blog::blog.placeholder.published_at'),
-                "rules" => '',
-                "group" => "main",
-                "section" => "first",
-                "col" => "6",
-                "append" => null,
-                "prepend" => null,
-                "roles" => [],
-                "attributes" => [
-                    'wrapper' => [],
-                    "label" => [],
-                    "element" => [],
-
                 ],
             ],
         ];

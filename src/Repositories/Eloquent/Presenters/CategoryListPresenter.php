@@ -14,9 +14,6 @@ class CategoryListPresenter extends Presenter
 
     public function title()
     {
-        if ($this->title != '') {
-            return $this->title;
-        }
 
         if ($this->name != '') {
             return $this->name;
@@ -29,7 +26,7 @@ class CategoryListPresenter extends Presenter
     {
         return [
             'id' => $this->getRouteKey(),
-            'name' => $this->title(),
+            'title' => $this->title(),
             'slug' => $this->slug,
             'status' => $this->status,
             'count' => $this->blogs->count(),
