@@ -26,7 +26,7 @@ class Blog extends Model
      */
      protected $config = 'litecms.blog.blog.model';
 
-     public function users()
+     public function author()
      {
         return $this->belongsTo('App\Models\User', 'user_id');
      }

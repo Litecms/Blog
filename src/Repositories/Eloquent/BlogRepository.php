@@ -3,9 +3,9 @@
 namespace Litecms\Blog\Repositories\Eloquent;
 
 use Litecms\Blog\Interfaces\BlogRepositoryInterface;
-use Litepie\Repository\BaseRepository;
 use Litecms\Blog\Repositories\Eloquent\Presenters\BlogItemPresenter;
-
+use Litecms\Blog\Repositories\Eloquent\Presenters\BlogListPresenter;
+use Litepie\Repository\BaseRepository;
 
 class BlogRepository extends BaseRepository implements BlogRepositoryInterface
 {
@@ -34,12 +34,13 @@ class BlogRepository extends BaseRepository implements BlogRepositoryInterface
     {
         return BlogItemPresenter::class;
     }
-    public function blogs()
+
+    public function recent($count = 5)
     {
-        return $this->model->orderBy('title', 'ASC')->get();
-    }
-    public function recentBlogs()
-    {
-        return $this->model->where('published','yes')->orderBy('id', 'DESC')->get()->take(2);
+        return $this
+            ->setPresenter(BlogListPresenter::class)
+            ->orderBy('id', 'DESC')
+            ->get()
+            ->take($count);
     }
 }

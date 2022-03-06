@@ -1,3 +1,4 @@
+
 <div class="col-12 col-lg-3">
     <div class="search-block">
         <form class="data-filter">
@@ -11,26 +12,26 @@
     <div class="widget">
         <h4>Categories</h4>
         <ul class="list-style">
+
             @foreach($categories as $category)
-            <li><a href="#">{{$category['name']}}</a><span>{{@$category->blogs->count()}}</span></li>
+            <li><a href="{{url('blogs')}}?category={{$category['slug']}}">{{$category['name']}}</a><span>{{@$category['count']}}</span></li>
             @endforeach
         </ul>
     </div>
     <div class="widget">
         <h4>Recently Added</h4>
         <ul class="latest-post position-relative">
-            @foreach($blogs as $recentblog)
+            @foreach($recent as $blg)
             <li class="media">
                 <figure>
-                    @foreach($recentblog['images'] as $image)
-                    <a href="{{trans_url('blog')}}/{{@$recentblog['slug']}}"><img
-                            src="{{url('image/original/'.@$image['path'])}}" class="img-fluid" alt=""></a>
-                    @endforeach 
+                    <a href="{{trans_url('blog')}}/{{@$blg['slug']}}">
+                        <img src="{{url($blg['image'])}}" class="img-fluid" alt="">
+                    </a>
                 </figure>
                 <div class="media-body">
-                    <h5><a href="{{trans_url('blog')}}/{{@$recentblog['slug']}}"
-                            class="text-extra-dark-gray">{{@$recentblog['title']}}</a></h5>
-                    <span class="d-block">{{date('M d,Y', strtotime(@$recentblog['published_at']))}}</span>
+                    <h5><a href="{{trans_url('blog')}}/{{@$blg['slug']}}"
+                            class="text-extra-dark-gray">{{@$blg['title']}}</a></h5>
+                    <span class="d-block">{{date('M d,Y', strtotime(@$blg['published_at']))}}</span>
                 </div>
             </li>
             @endforeach
@@ -40,7 +41,7 @@
         <h4>Tags Cloud</h4>
         <div class="tag-cloud">
             @foreach($tags as $tag)
-            <a href="#">{{$tag['name']}}</a>
+            <a href="{{url('blogs')}}?tag={{$tag['slug']}}">{{$tag['name']}}</a>
             @endforeach
         </div>
     </div>

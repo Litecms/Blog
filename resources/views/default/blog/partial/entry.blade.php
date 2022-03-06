@@ -7,7 +7,11 @@
                 <div class="row">
                     @foreach($fields as $key => $field)
                     <div class="col-{!!$field['col'] ?? '12'!!}">
-                        {!! Form::input($key)->apply($field) !!}
+                        {!! 
+                            Form::input($key)
+                            ->apply($field)
+                            ->mode($mode) 
+                        !!}
                     </div>
                     @endforeach
                 </div>

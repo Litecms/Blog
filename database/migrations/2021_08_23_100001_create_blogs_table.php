@@ -21,13 +21,13 @@ class CreateBlogsTable extends Migration
             $table->increments('id');
             $table->integer('category_id')->nullable();
             $table->string('title', 255)->nullable();
+            $table->text('summary')->nullable();
             $table->text('description')->nullable();
             $table->text('images')->nullable();
-            $table->text('tags')->nullable();
+            $table->string('tags', 225)->nullable();
             $table->integer('viewcount')->nullable();
             $table->string('slug', 255)->nullable();
-            $table->enum('published', ['yes', 'no'])->nullable();
-            $table->text('published_at')->nullable();
+            $table->enum('status', ['draft', 'completed', 'approved', 'published'])->nullable();
             $table->integer('user_id')->nullable();
             $table->string('user_type', 255)->nullable();
             $table->softDeletes();

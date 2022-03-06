@@ -25,7 +25,7 @@ class BlogServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'blog');
 
         // Load translation
-        $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'blog');
+        $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'blog');
 
         // Load migrations
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');

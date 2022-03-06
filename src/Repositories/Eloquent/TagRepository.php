@@ -3,9 +3,8 @@
 namespace Litecms\Blog\Repositories\Eloquent;
 
 use Litecms\Blog\Interfaces\TagRepositoryInterface;
-use Litepie\Repository\BaseRepository;
 use Litecms\Blog\Repositories\Eloquent\Presenters\TagItemPresenter;
-
+use Litepie\Repository\BaseRepository;
 
 class TagRepository extends BaseRepository implements TagRepositoryInterface
 {
@@ -36,6 +35,8 @@ class TagRepository extends BaseRepository implements TagRepositoryInterface
     }
     public function tags()
     {
-        return $this->model->orderBy('name', 'ASC')->get();
+        return $this
+            ->orderBy('name', 'ASC')
+            ->get();
     }
 }
